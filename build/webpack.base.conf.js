@@ -17,7 +17,11 @@ const createLintingRule = () => ({
     formatter: require('eslint-friendly-formatter'),
     emitWarning: !config.dev.showEslintErrorsInOverlay
   }
-})
+},
+{
+  test: /\.less$/,
+  loader: "style-loader!css-loader!less-loader",
+  })
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
