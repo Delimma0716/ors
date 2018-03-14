@@ -1,9 +1,7 @@
 <template>
   <div class="fixed">
     <el-menu :default-active="routes[0].path" class="el-menu-demo" mode="horizontal" :router="true">
-      <el-menu-item>
-        <div class="logo">logo</div>
-      </el-menu-item>
+      <div class="logo"></div>
       <el-menu-item v-for="route in routes" :index="route.path">{{route.name}}</el-menu-item>
       <el-submenu>
         <template slot="title" index="">user,你好</template>
@@ -21,10 +19,9 @@ export default {
       routes: this.$router.options.routes[0].children.slice(0, 2)
     }
   },
-  methods: {},
-  mounted() {
-    console.log(this.routes)
+  methods: {
   }
+  
 }
 </script>
 
@@ -37,7 +34,15 @@ export default {
   z-index: 10;
   ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+  }
+  .logo{
+    width:100px;
+    height:61px;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#879adc;
   }
 }
 </style>

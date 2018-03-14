@@ -10,17 +10,17 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '',
       name: '首页',
       component: Index,
       children: [
         {
-          path: 'apply',
+          path: '/apply',
           name: '找工作',
           component: Positions,
         },
         {
-          path: 'recruit',
+          path: '/recruit',
           name: '发布职位'
         },
         {
@@ -30,7 +30,6 @@ export default new Router({
         },
       ]
     },
-    
     {
       path: '/login',
       name: '登录',

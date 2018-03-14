@@ -84,6 +84,7 @@ export default {
       this.isLog = !this.isLog
       this.isEnter = !this.isEnter
     },
+    // 企业注册切换
     showEnterReg() {
       this.isLog = !this.isLog
       this.isEnter = true

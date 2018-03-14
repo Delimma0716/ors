@@ -15,6 +15,9 @@ export default {
   },
   components: {
     'o-header': Header
+  },
+  mounted() {
+    this.$router.push('/apply')
   }
 }
 </script>
