@@ -100,7 +100,11 @@ export default {
           password: this.loginForm.password
         })
         .then(response => {
-          console.log(response)
+          if (response.data) {
+            this.$router.push('/apply')
+          } else {
+            this.hintmsg = '用户名或密码不正确'
+          }
         })
         .catch(error => {
           console.log(error)

@@ -3,6 +3,16 @@ const app = express()
 
 const userRouter = require('./router/userRouter')
 
+const bodyParser = require('body-parser');
+// const multer = require('multer');
+
+// for parsing application/json
+app.use(bodyParser.json())
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+// for parsing multipart/form-data
+// app.use(multer()) 
+
 // 中间件
 app.use((req, res, next) => {
   // 解决ajax跨域问题
