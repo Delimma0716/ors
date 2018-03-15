@@ -8,6 +8,7 @@
           </el-form-item>
           <el-form-item label="密码">
             <el-input v-model="loginForm.password" type="password"></el-input>
+            <p class="hint">{{hintmsg}}</p>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="login">登录</el-button>
@@ -38,15 +39,15 @@
     </transition>
     <transition name="el-fade-in">
       <el-card class="box-card reg-card" v-show="isEnter">
-        <el-form label-position="right" label-width="80px" :model="loginForm">
+        <el-form label-position="right" label-width="80px" :model="regForm">
           <el-form-item label="企业账号">
-            <el-input v-model="loginForm.account"></el-input>
+            <el-input v-model="regForm.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="loginForm.password" type="password"></el-input>
+            <el-input v-model="regForm.password" type="password"></el-input>
           </el-form-item>
           <el-form-item label="确认密码">
-            <el-input v-model="loginForm.password" type="password"></el-input>
+            <el-input v-model="regForm.password2" type="password"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
@@ -59,6 +60,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
@@ -67,6 +70,13 @@ export default {
         account: '',
         password: ''
       },
+      regForm: {
+        account: '',
+        password: '',
+        password2: ''
+      },
+      // 表单提示文字
+      hintmsg: '',
       // 是否显示登录框
       isLog: true,
       // 是否企业注册
@@ -75,8 +85,27 @@ export default {
   },
   mounted() {},
   methods: {
-    // 登录
-    login() {},
+    // 用户登录
+    login() {
+      this.hintmsg = ''
+      // 校验表单是否完整
+      if (this.loginForm.account === '') {
+        this.hintmsg = '用户名为空'
+      } else if (this.loginForm.password === '') {
+        this.hintmsg = '密码为空'
+      }
+      axios
+        .post('/user/login', {
+          account: this.loginForm.account,
+          password: this.loginForm.password
+        })
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     // 注册
     register() {},
     // 登录注册框切换
@@ -98,11 +127,19 @@ export default {
   width: 100%;
   height: 40%;
   background: #c1daf0;
-}
-.box-card {
-  padding: 30px 40px 0 0;
-  position: absolute;
-  top: 25%;
-  right: 200px;
+  .box-card {
+    padding: 30px 40px 0 0;
+    position: absolute;
+    top: 25%;
+    right: 200px;
+    .el-input {
+      width: 240px;
+    }
+    .hint {
+      color: #419ae7;
+      margin: 0;
+      line-height: 24px;
+    }
+  }
 }
 </style>

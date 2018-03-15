@@ -17,7 +17,7 @@ export default {
     'o-header': Header
   },
   mounted() {
-    this.$router.push('/apply')
+    this.$router.push('/login')
   }
 }
 </script>
