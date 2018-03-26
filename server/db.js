@@ -27,8 +27,6 @@ db.close = function (connection) {
   connection.end(function (err) {
     if (err) {
       return
-    } else {
-      console.log('关闭连接')
     }
   })
 }

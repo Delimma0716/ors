@@ -20,19 +20,20 @@
     </transition>
     <transition name="el-fade-in">
       <el-card class="box-card reg-card" v-show="!isLog">
-        <el-form label-position="right" label-width="80px" :model="loginForm">
+        <el-form label-position="right" label-width="80px" :model="regForm">
           <el-form-item label="用户名">
-            <el-input v-model="loginForm.account"></el-input>
+            <el-input v-model="regForm.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="loginForm.password" type="password"></el-input>
+            <el-input v-model="regForm.password" type="password"></el-input>
           </el-form-item>
           <el-form-item label="确认密码">
-            <el-input v-model="loginForm.password" type="password"></el-input>
+            <el-input v-model="regForm.password2" type="password"></el-input>
+            <p class="hint">{{hintmsg}}</p>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
-            <el-button @click="showReg">登录</el-button>
+            <el-button @click="showLog">登录</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -51,7 +52,7 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
-            <el-button @click="showReg">登录</el-button>
+            <el-button @click="showLog">登录</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -111,15 +112,44 @@ export default {
         })
     },
     // 注册
-    register() {},
+    register() {
+      this.hintmsg = ''
+      // 校验表单是否完整
+      if (this.regForm.account === '') {
+        this.hintmsg = '用户名不能为空'
+      } else if (this.regForm.password === '') {
+        this.hintmsg = '密码不能为空'
+      } else if(this.regForm.password !== this.regForm.password2){
+        this.hintmsg = '两次密码不一致'
+      }
+      axios
+        .post('/user/register', {
+          account: this.regForm.account,
+          password: this.regForm.password
+        })
+        .then(response => {
+          if (response.data) {
+            this.$router.push('/apply')
+          } else {
+            this.hintmsg = '用户名或密码不正确'
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     // 登录注册框切换
+    showLog() {
+      this.isLog=true
+      this.isEnter = false
+    },
     showReg() {
-      this.isLog = !this.isLog
-      this.isEnter = !this.isEnter
+      this.isLog = false
+      this.isEnter = false
     },
     // 企业注册切换
     showEnterReg() {
-      this.isLog = !this.isLog
+      this.isLog = false
       this.isEnter = true
     }
   }
