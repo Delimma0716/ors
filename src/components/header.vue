@@ -4,7 +4,7 @@
       <div class="logo"></div>
       <el-menu-item v-for="route in routes" :index="route.path">{{route.name}}</el-menu-item>
       <el-submenu>
-        <template slot="title" index="">user,你好</template>
+        <template slot="title" index="">{{username}},你好</template>
         <el-menu-item index="settings">个人中心</el-menu-item>
         <el-menu-item index="">退出</el-menu-item>
       </el-submenu>
@@ -16,10 +16,14 @@
 export default {
   data() {
     return {
-      routes: this.$router.options.routes[0].children.slice(0, 2)
+      routes: this.$router.options.routes[0].children.slice(0, 2),
+      username:''
     }
   },
   methods: {
+  },
+  mounted(){
+    this.username=localStorage.getItem('user_account')
   }
   
 }

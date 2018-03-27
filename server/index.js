@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 
 const userRouter = require('./router/userRouter')
+const enterRouter = require('./router/enterRouter')
 
 const bodyParser = require('body-parser');
 // const multer = require('multer');
@@ -24,6 +25,8 @@ app.use((req, res, next) => {
 
 // 普通用户路由
 app.use('/user', userRouter)
+// 企业路由
+app.use('/enter', enterRouter)
 
 const server = app.listen(3000, function () {
   const host = server.address().address

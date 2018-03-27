@@ -1,7 +1,7 @@
 <template>
   <div class="loginBox">
     <transition name="el-fade-in">
-      <el-card class="box-card login-card" v-show="isLog">
+      <el-card class="box-card login-card" v-show="isLog&&(!isEnter)">
         <el-form label-position="right" label-width="80px" :model="loginForm">
           <el-form-item label="用户名">
             <el-input v-model="loginForm.account"></el-input>
@@ -13,13 +13,13 @@
           <el-form-item>
             <el-button type="primary" @click="login">登录</el-button>
             <el-button @click="showReg">注册</el-button>
-            <el-button type="text" @click="showEnterReg">企业注册</el-button>
+            <el-button type="text" @click="showEnterLog">企业端</el-button>
           </el-form-item>
         </el-form>
       </el-card>
     </transition>
     <transition name="el-fade-in">
-      <el-card class="box-card reg-card" v-show="!isLog">
+      <el-card class="box-card reg-card" v-show="(!isLog)&&(!isEnter)">
         <el-form label-position="right" label-width="80px" :model="regForm">
           <el-form-item label="用户名">
             <el-input v-model="regForm.account"></el-input>
@@ -34,12 +34,31 @@
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
             <el-button @click="showLog">登录</el-button>
+            <el-button type="text" @click="showEnterLog">企业端</el-button>
           </el-form-item>
         </el-form>
       </el-card>
     </transition>
     <transition name="el-fade-in">
-      <el-card class="box-card reg-card" v-show="isEnter">
+      <el-card class="box-card login-card" v-show="isLog&&isEnter">
+        <el-form label-position="right" label-width="80px" :model="loginForm">
+          <el-form-item label="企业账号">
+            <el-input v-model="loginForm.account"></el-input>
+          </el-form-item>
+          <el-form-item label="密码">
+            <el-input v-model="loginForm.password" type="password"></el-input>
+            <p class="hint">{{hintmsg}}</p>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="login">登录</el-button>
+            <el-button @click="showEnterReg">注册</el-button>
+            <el-button type="text" @click="showLog">用户端</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>
+    </transition>
+    <transition name="el-fade-in">
+      <el-card class="box-card reg-card" v-show="isEnter&&(!isLog)">
         <el-form label-position="right" label-width="80px" :model="regForm">
           <el-form-item label="企业账号">
             <el-input v-model="regForm.account"></el-input>
@@ -52,7 +71,8 @@
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="register">注册</el-button>
-            <el-button @click="showLog">登录</el-button>
+            <el-button @click="showEnterLog">登录</el-button>
+            <el-button type="text" @click="showLog">用户端</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -80,7 +100,7 @@ export default {
       hintmsg: '',
       // 是否显示登录框
       isLog: true,
-      // 是否企业注册
+      // 是否企业
       isEnter: false
     }
   },
@@ -102,6 +122,7 @@ export default {
         })
         .then(response => {
           if (response.data.retCode===1) {
+            localStorage.setItem('user_account',this.loginForm.account)
             this.$router.push('/apply')
           } else {
             this.hintmsg = response.data.msg
@@ -130,6 +151,7 @@ export default {
           })
           .then(response => {
             if (response.data.retCode===1) {
+              localStorage.setItem('user_account',this.regForm.account)
               this.$router.push('/apply')
             } else {
               this.hintmsg = response.data.msg
@@ -150,6 +172,10 @@ export default {
       this.isEnter = false
     },
     // 企业注册切换
+    showEnterLog () {
+      this.isLog = true
+      this.isEnter = true
+    },
     showEnterReg () {
       this.isLog = false
       this.isEnter = true
