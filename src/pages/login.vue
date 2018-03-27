@@ -64,7 +64,7 @@
 import axios from 'axios'
 
 export default {
-  data() {
+  data () {
     return {
       // 表单参数
       loginForm: {
@@ -84,10 +84,10 @@ export default {
       isEnter: false
     }
   },
-  mounted() {},
+  mounted () { },
   methods: {
     // 用户登录
-    login() {
+    login () {
       this.hintmsg = ''
       // 校验表单是否完整
       if (this.loginForm.account === '') {
@@ -112,43 +112,44 @@ export default {
         })
     },
     // 注册
-    register() {
+    register () {
       this.hintmsg = ''
       // 校验表单是否完整
       if (this.regForm.account === '') {
         this.hintmsg = '用户名不能为空'
       } else if (this.regForm.password === '') {
         this.hintmsg = '密码不能为空'
-      } else if(this.regForm.password !== this.regForm.password2){
+      } else if (this.regForm.password !== this.regForm.password2) {
         this.hintmsg = '两次密码不一致'
+      } else {
+        axios
+          .post('/user/register', {
+            account: this.regForm.account,
+            password: this.regForm.password
+          })
+          .then(response => {
+            if (response.data) {
+              this.$router.push('/apply')
+            } else {
+              this.hintmsg = '用户名或密码不正确'
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
-      axios
-        .post('/user/register', {
-          account: this.regForm.account,
-          password: this.regForm.password
-        })
-        .then(response => {
-          if (response.data) {
-            this.$router.push('/apply')
-          } else {
-            this.hintmsg = '用户名或密码不正确'
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
     },
     // 登录注册框切换
-    showLog() {
-      this.isLog=true
+    showLog () {
+      this.isLog = true
       this.isEnter = false
     },
-    showReg() {
+    showReg () {
       this.isLog = false
       this.isEnter = false
     },
     // 企业注册切换
-    showEnterReg() {
+    showEnterReg () {
       this.isLog = false
       this.isEnter = true
     }

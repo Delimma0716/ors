@@ -8,15 +8,16 @@ db.connection = function () {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: 'root',
     database: 'ors'
   })
   //数据库连接
-  connection.connect(function (err) {
+  connection.connect(err => {
     if (err) {
       console.log(err)
       return
     }
+    console.log('----connected----')
   })
   return connection
 }
@@ -24,26 +25,22 @@ db.connection = function () {
 //关闭数据库
 db.close = function (connection) {
   //关闭连接
-  connection.end(function (err) {
+  connection.end(err => {
     if (err) {
       return
     }
+    console.log('----closed----')
   })
 }
 
 //使用异步返回查询结果 0-错误 1-正确
-db.query = function (sql, callback) {
+db.query = function (sql, params, callback) {
   let conn = db.connection()
-  conn.query(sql, function (error, results) {
-    if (error) {
-      // throw error
-      callback(0)
-      return
-    }
-    if (results.length === 1) {
-      callback(1)
+  conn.query(sql, params, (error, rows) => {
+    if (err) {
+      console.log('err')
     } else {
-      callback(0)
+      callback()
     }
   })
   db.close(conn)

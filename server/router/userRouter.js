@@ -12,11 +12,11 @@ userRouter.post('/login', (req, res) => {
   let account = req.body.account
   let password = req.body.password
   // 查询用户表 返回 0-错误 1-正确
-  let sql = "select * from user where user_account = ? and user_password = ?"
-  let params = [account,password]
-  db.query(sql, params, function (err,rows, fields) {
+  let sql = "select * from user"
+  let params = [account]
+  db.query(sql, (err, rows, fields) => {
     // res.send(retCode + '')
-    console.log(err,rows, fields)
+    console.log( rows)
   })
 })
 
@@ -25,15 +25,19 @@ userRouter.post('/register', (req, res) => {
   let account = req.body.account
   let password = req.body.password
   let sql = "select * from user"
-  db.query(sql, function (err,result) {
+  db.query(sql, (err, rows, fields) => {
     // res.send(retCode + '')
-    console.log(err,result)
+    if (err) {
+      throw err
+    } else {
+      console.log(rows, fields)
+    }
   })
   // 返回 0-错误 1-正确
-  let sql2 = "insert into user(user_account,user_password) values ('" + account + "','" + password + "')"
-  db.query(sql2, function (retCode) {
-    res.send(retCode + '')
-  })
+  // let sql2 = "insert into user(user_account,user_password) values ('" + account + "','" + password + "')"
+  // db.query(sql2, function (retCode) {
+  //   res.send(retCode + '')
+  // })
 })
 
 module.exports = userRouter
