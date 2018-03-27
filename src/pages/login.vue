@@ -94,22 +94,23 @@ export default {
         this.hintmsg = '用户名为空'
       } else if (this.loginForm.password === '') {
         this.hintmsg = '密码为空'
-      }
+      }else{
       axios
         .post('/user/login', {
           account: this.loginForm.account,
           password: this.loginForm.password
         })
         .then(response => {
-          if (response.data) {
+          if (response.data.retCode===1) {
             this.$router.push('/apply')
           } else {
-            this.hintmsg = '用户名或密码不正确'
+            this.hintmsg = response.data.msg
           }
         })
         .catch(error => {
           console.log(error)
         })
+      }
     },
     // 注册
     register () {
@@ -128,10 +129,10 @@ export default {
             password: this.regForm.password
           })
           .then(response => {
-            if (response.data) {
+            if (response.data.retCode===1) {
               this.$router.push('/apply')
             } else {
-              this.hintmsg = '用户名或密码不正确'
+              this.hintmsg = response.data.msg
             }
           })
           .catch(error => {

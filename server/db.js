@@ -33,16 +33,10 @@ db.close = function (connection) {
   })
 }
 
-//使用异步返回查询结果 0-错误 1-正确
+//使用异步返回查询结果
 db.query = function (sql, params, callback) {
   let conn = db.connection()
-  conn.query(sql, params, (error, rows) => {
-    if (err) {
-      console.log('err')
-    } else {
-      callback()
-    }
-  })
+  conn.query(sql, params, callback)
   db.close(conn)
 }
 
