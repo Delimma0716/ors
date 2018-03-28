@@ -42,7 +42,7 @@
     <transition name="el-fade-in">
       <el-card class="box-card login-card" v-show="isLog&&isEnter">
         <el-form label-position="right" label-width="80px" :model="loginForm">
-          <el-form-item label="企业账号">
+          <el-form-item label="企业号">
             <el-input v-model="loginForm.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
@@ -50,7 +50,7 @@
             <p class="hint">{{hintmsg}}</p>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="login">登录</el-button>
+            <el-button type="primary" @click="enterLogin">登录</el-button>
             <el-button @click="showEnterReg">注册</el-button>
             <el-button type="text" @click="showLog">用户端</el-button>
           </el-form-item>
@@ -60,7 +60,7 @@
     <transition name="el-fade-in">
       <el-card class="box-card reg-card" v-show="isEnter&&(!isLog)">
         <el-form label-position="right" label-width="80px" :model="regForm">
-          <el-form-item label="企业账号">
+          <el-form-item label="企业号">
             <el-input v-model="regForm.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
@@ -68,9 +68,10 @@
           </el-form-item>
           <el-form-item label="确认密码">
             <el-input v-model="regForm.password2" type="password"></el-input>
+            <p class="hint">{{hintmsg}}</p>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="register">注册</el-button>
+            <el-button type="primary" @click="enterRegister">注册</el-button>
             <el-button @click="showEnterLog">登录</el-button>
             <el-button type="text" @click="showLog">用户端</el-button>
           </el-form-item>
@@ -92,6 +93,15 @@ export default {
         password: ''
       },
       regForm: {
+        account: '',
+        password: '',
+        password2: ''
+      },
+      enLoginForm: {
+        account: '',
+        password: ''
+      },
+      enRegForm: {
         account: '',
         password: '',
         password2: ''
@@ -153,6 +163,63 @@ export default {
             if (response.data.retCode === 1) {
               localStorage.setItem('user_account', this.regForm.account)
               this.$router.push('/apply')
+            } else {
+              this.hintmsg = response.data.msg
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    // 企业登录
+    enterLogin () {
+      this.hintmsg = ''
+      // 校验表单是否完整
+      if (this.loginForm.account === '') {
+        this.hintmsg = '企业号为空'
+      } else if (this.loginForm.password === '') {
+        this.hintmsg = '密码为空'
+      } else {
+        axios
+          .post('/enter/login', {
+            account: this.loginForm.account,
+            password: this.loginForm.password
+          })
+          .then(response => {
+            if (response.data.retCode === 1) {
+              localStorage.setItem('en_account', this.loginForm.account)
+              this.$router.push('/enterprise/recruit')
+            } else {
+              this.hintmsg = response.data.msg
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+    // 企业注册
+    enterRegister () {
+      console.log(this.regForm)
+      this.hintmsg = ''
+      // 校验表单是否完整
+      if (this.regForm.account === '') {
+        this.hintmsg = '企业号不能为空'
+      } else if (this.regForm.password === '') {
+        this.hintmsg = '密码不能为空'
+      } else if (this.regForm.password !== this.regForm.password2) {
+        this.hintmsg = '两次密码不一致'
+      } else {
+        axios
+          .post('/enter/register', {
+            account: this.regForm.account,
+            password: this.regForm.password
+          })
+          .then(response => {
+            if (response.data.retCode === 1) {
+              localStorage.setItem('en_account', this.regForm.account)
+              this.$router.push('/enterprise/recruit')
             } else {
               this.hintmsg = response.data.msg
             }

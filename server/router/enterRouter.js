@@ -14,18 +14,18 @@ enterRouter.post('/login', (req, res) => {
   let account = req.body.account
   let password = req.body.password
   // 查询用户表
-  let sql = "select user_password from user where user_account = ?"
+  let sql = "select en_password from enterprise where en_account = ?"
   db.query(sql, [account], (err, rows) => {
     if (err) {
       throw err
     } else {
       if (rows.length === 0) {
         data.retCode = -1
-        data.msg = '用户名错误'
+        data.msg = '企业号错误'
       } else {
-        if (rows[0].user_password === password) {
+        if (rows[0].en_password === password) {
           data.retCode = 1
-          data.msg = '用户名密码正确'
+          data.msg = '企业号密码正确'
         } else {
           data.retCode = -1
           data.msg = '密码错误'
@@ -37,19 +37,19 @@ enterRouter.post('/login', (req, res) => {
 })
 
 // 注册
-userRouter.post('/register', (req, res) => {
+enterRouter.post('/register', (req, res) => {
   let account = req.body.account
   let password = req.body.password
-  let sql = "select user_password from user where user_account = ?"
+  let sql = "select en_password from enterprise where en_account = ?"
   db.query(sql, [account], (err, rows) => {
     if (err) {
       throw err
     } else {
       if (rows.length === 1) {
         data.retCode = -1
-        data.msg = '用户名已存在'
+        data.msg = '企业号已存在'
       } else {
-        let sql2 = "insert into user(user_account,user_password) values (?,?)"
+        let sql2 = "insert into enterprise(en_account,en_password) values (?,?)"
         db.query(sql2, [account, password], (err, rows) => {
           if (err) {
             throw err

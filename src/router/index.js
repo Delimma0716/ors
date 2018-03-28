@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/pages/login'
 import Index from '@/pages/index'
+import EnterIndex from '@/pages/enterIndex'
+import Recruit from '@/pages/enterprise/recruit'
 import Apply from '@/pages/apply/apply'
 import Detail from '@/pages/apply/detail'
 import Certificate from '@/pages/enterprise/certificate'
@@ -12,22 +14,22 @@ export default new Router({
   routes: [
     // 用户端
     {
-      path: '',
+      path: '/',
       name: '首页',
       component: Index,
       children: [
         {
-          path: '/apply',
+          path: 'apply',
           name: '找工作',
           component: Apply,
         },
         {
-          path: '/detail/:po_id',
+          path: 'detail/:po_id',
           name: '职位详情',
           component: Detail
         },
         {
-          path: '/settings',
+          path: 'settings',
           name: '个人中心',
           children: [
             {
@@ -48,15 +50,17 @@ export default new Router({
     },
     // 企业端
     {
-      path: 'enterprise',
+      path: '/enterprise',
       name: '企业首页',
+      component: EnterIndex,
       children: [
         {
-          path: '/recruit',
-          name: '发布职位'
+          path: 'recruit',
+          name: '发布职位',
+          component: Recruit
         },
         {
-          path: '/settings',
+          path: 'settings',
           name: '个人中心',
           children: [
             {
