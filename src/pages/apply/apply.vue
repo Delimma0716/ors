@@ -125,7 +125,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       keyword: '',
       options: [
@@ -166,7 +166,7 @@ export default {
   },
   methods: {
     // 显示职位细节
-    detail(row, event, column) {
+    detail (row, event, column) {
       console.log(row, event, column)
       this.$router.push('/detail/233')
     }

@@ -14,18 +14,18 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       routes: this.$router.options.routes[0].children.slice(0, 2),
-      username:''
+      username: ''
     }
   },
   methods: {
   },
-  mounted(){
-    this.username=localStorage.getItem('user_account')
+  mounted () {
+    this.username = localStorage.getItem('user_account')
   }
-  
+
 }
 </script>
 
@@ -40,13 +40,13 @@ export default {
     display: flex;
     justify-content: flex-end;
   }
-  .logo{
-    width:100px;
-    height:61px;
-    position:fixed;
-    top:0;
-    left:0;
-    background:#879adc;
+  .logo {
+    width: 100px;
+    height: 61px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #879adc;
   }
 }
 </style>

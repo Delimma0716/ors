@@ -114,23 +114,23 @@ export default {
         this.hintmsg = '用户名为空'
       } else if (this.loginForm.password === '') {
         this.hintmsg = '密码为空'
-      }else{
-      axios
-        .post('/user/login', {
-          account: this.loginForm.account,
-          password: this.loginForm.password
-        })
-        .then(response => {
-          if (response.data.retCode===1) {
-            localStorage.setItem('user_account',this.loginForm.account)
-            this.$router.push('/apply')
-          } else {
-            this.hintmsg = response.data.msg
-          }
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      } else {
+        axios
+          .post('/user/login', {
+            account: this.loginForm.account,
+            password: this.loginForm.password
+          })
+          .then(response => {
+            if (response.data.retCode === 1) {
+              localStorage.setItem('user_account', this.loginForm.account)
+              this.$router.push('/apply')
+            } else {
+              this.hintmsg = response.data.msg
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
     },
     // 注册
@@ -150,8 +150,8 @@ export default {
             password: this.regForm.password
           })
           .then(response => {
-            if (response.data.retCode===1) {
-              localStorage.setItem('user_account',this.regForm.account)
+            if (response.data.retCode === 1) {
+              localStorage.setItem('user_account', this.regForm.account)
               this.$router.push('/apply')
             } else {
               this.hintmsg = response.data.msg
