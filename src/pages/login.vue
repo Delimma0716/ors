@@ -114,7 +114,9 @@ export default {
       isEnter: false
     }
   },
-  mounted () { },
+  mounted () { 
+    localStorage.clear()
+  },
   methods: {
     // 用户登录
     login () {
