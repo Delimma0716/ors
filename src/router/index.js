@@ -3,10 +3,12 @@ import Router from 'vue-router'
 import Login from '@/pages/login'
 import Index from '@/pages/index'
 import EnterIndex from '@/pages/enterIndex'
+import Settings from '@/pages/settings'
 import Recruit from '@/pages/enterprise/recruit'
 import Apply from '@/pages/apply/apply'
 import Detail from '@/pages/apply/detail'
 import Certificate from '@/pages/enterprise/certificate'
+import EnterInfo from '@/pages/enterprise/info'
 
 Vue.use(Router)
 
@@ -19,18 +21,9 @@ export default new Router({
       component: Index,
       children: [
         {
-          path: 'apply',
-          name: '找工作',
-          component: Apply,
-        },
-        {
-          path: 'detail/:po_id',
-          name: '职位详情',
-          component: Detail
-        },
-        {
           path: 'settings',
           name: '个人中心',
+          component: Settings,
           children: [
             {
               path: '/info',
@@ -45,6 +38,16 @@ export default new Router({
               name: '我的投递',
             }
           ]
+        },
+        {
+          path: 'apply',
+          name: '找工作',
+          component: Apply,
+        },
+        {
+          path: 'detail/:po_id',
+          name: '职位详情',
+          component: Detail
         }
       ]
     },
@@ -55,33 +58,35 @@ export default new Router({
       component: EnterIndex,
       children: [
         {
-          path: 'recruit',
-          name: '发布职位',
-          component: Recruit
-        },
-        {
           path: 'settings',
-          name: '个人中心',
+          name: '企业中心',
+          component: Settings,
           children: [
             {
-              path: '/info',
+              path: 'info',
               name: '基本信息',
+              component: EnterInfo
             },
             {
-              path: '/certificate/:en_id',
+              path: 'certificate',
               name: '企业认证',
               component: Certificate
             },
             {
-              path: '/position',
+              path: 'position',
               name: '职位编辑',
             },
             {
-              path: '/deliver',
+              path: 'deliver',
               name: '投递管理',
             }
           ]
-        }
+        },
+        {
+          path: 'recruit',
+          name: '发布职位',
+          component: Recruit
+        },
       ]
     },
     {

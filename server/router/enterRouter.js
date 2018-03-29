@@ -64,4 +64,50 @@ enterRouter.post('/register', (req, res) => {
   })
 })
 
+// 更新企业信息
+enterRouter.post('/updateinfo', (req, res) => {
+  let account = req.body.account
+  let name = req.body.name
+  let desc = req.body.desc
+  let addr = req.body.addr
+  let tel = req.body.name
+  let sql = "UPDATE enterprise SET en_name = ?, en_desc = ?, en_addr = ?, en_tel = ? WHERE en_account = ?"
+  db.query(sql, [name, desc, addr, tel, account], (err, rows) => {
+    if (err) {
+      throw err
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '保存成功'
+      } else {
+        data.retCode = -1
+        data.msg = '保存失败'
+      }
+    }
+    res.json(data)
+  })
+})
+
+// 获取企业信息
+enterRouter.post('/getinfo', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT en_name,en_desc,en_addr,en_tel FROM enterprise WHERE en_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      throw err
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '保存成功'
+      } else {
+        data.retCode = -1
+        data.msg = '保存失败'
+      }
+    }
+    res.json(data)
+  })
+})
+
 module.exports = enterRouter

@@ -16,7 +16,7 @@
 export default {
   data () {
     return {
-      routes: this.$router.options.routes[0].children.slice(0, 1),
+      routes: this.$router.options.routes[0].children.slice(1,2),
       username: ''
     }
   },
