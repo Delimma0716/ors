@@ -168,7 +168,7 @@ export default {
     // 显示职位细节
     detail (row, event, column) {
       console.log(row, event, column)
-      this.$router.push('/detail/233')
+      this.$router.push('/detail')
     }
   }
 }

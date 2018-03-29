@@ -19,6 +19,7 @@ enterRouter.post('/login', (req, res) => {
     if (err) {
       throw err
     } else {
+      console.log(rows)
       if (rows.length === 0) {
         data.retCode = -1
         data.msg = '企业号错误'
@@ -45,6 +46,7 @@ enterRouter.post('/register', (req, res) => {
     if (err) {
       throw err
     } else {
+      console.log(rows)
       if (rows.length === 1) {
         data.retCode = -1
         data.msg = '企业号已存在'
@@ -98,12 +100,42 @@ enterRouter.post('/getinfo', (req, res) => {
       throw err
     } else {
       console.log(rows)
-      if (rows) {
+      if (rows.length === 1) {
         data.retCode = 1
-        data.msg = '保存成功'
+        data.msg = rows[0]
       } else {
         data.retCode = -1
-        data.msg = '保存失败'
+        data.msg = '系统错误'
+      }
+    }
+    res.json(data)
+  })
+})
+
+// 发布职位
+enterRouter.post('/postjob', (req, res) => {
+  let params = [
+    req.body.account,
+    req.body.name,
+    req.body.addr,
+    req.body.salary,
+    req.body.exp,
+    req.body.edu,
+    req.body.time,
+    req.body.info
+  ]
+  let sql = "INSERT INTO job(en_account,job_name,job_addr,job_salary,job_exp,job_edu,job_time,job_info)VALUES(?,?,?,?,?,?,?,?)"
+  db.query(sql, params, (err, rows) => {
+    if (err) {
+      throw err
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '发布成功'
+      } else {
+        data.retCode = -1
+        data.msg = '发布失败'
       }
     }
     res.json(data)

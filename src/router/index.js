@@ -26,15 +26,15 @@ export default new Router({
           component: Settings,
           children: [
             {
-              path: '/info',
+              path: 'info',
               name: '基本信息',
             },
             {
-              path: '/resume',
+              path: 'resume',
               name: '我的简历',
             },
             {
-              path: '/deliver',
+              path: 'deliver',
               name: '我的投递',
             }
           ]
@@ -45,7 +45,7 @@ export default new Router({
           component: Apply,
         },
         {
-          path: 'detail/:po_id',
+          path: 'detail',
           name: '职位详情',
           component: Detail
         }

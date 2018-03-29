@@ -1,12 +1,12 @@
 <template>
   <div class="fixed">
-    <el-menu :default-active="routes[0].path" class="el-menu-demo" mode="horizontal" :router="true">
+    <el-menu default-active="" class="el-menu-demo" mode="horizontal" :router="true">
       <div class="logo"></div>
-      <el-menu-item v-for="route in routes" :index="route.path">{{route.name}}</el-menu-item>
+      <el-menu-item index="/enterprise/recruit">发布职位</el-menu-item>
       <el-submenu>
-        <template slot="title" index="">{{entername}},你好</template>
+        <template slot="title">{{entername}},你好</template>
         <el-menu-item index="settings">企业中心</el-menu-item>
-        <el-menu-item index="">退出</el-menu-item>
+        <el-menu-item @click="exit">退出</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -16,11 +16,14 @@
 export default {
   data () {
     return {
-      routes: this.$router.options.routes[1].children.slice(1),
       entername: ''
     }
   },
   methods: {
+    exit(){
+      localStorage.clear()
+      this.$router.push('/login')
+    }
   },
   mounted () {
     this.entername = localStorage.getItem('en_account')

@@ -254,10 +254,11 @@ export default {
 <style lang="less" scoped>
 .loginBox {
   width: 100%;
-  height: 40%;
-  background: #c1daf0;
+  height: 100%;
+  background: url('../../static/imgs/cruit.jpg') no-repeat 0 0;
+  background-size: cover;
   .box-card {
-    padding: 30px 40px 0 0;
+    padding: 30px 30px 0 0;
     position: absolute;
     top: 25%;
     right: 200px;

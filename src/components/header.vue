@@ -6,7 +6,7 @@
       <el-submenu>
         <template slot="title" index="">{{username}},你好</template>
         <el-menu-item index="settings">个人中心</el-menu-item>
-        <el-menu-item index="">退出</el-menu-item>
+        <el-menu-item @click="exit">退出</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -21,6 +21,10 @@ export default {
     }
   },
   methods: {
+    exit(){
+      localStorage.clear()
+      this.$router.push('/login')
+    }
   },
   mounted () {
     this.username = localStorage.getItem('user_account')

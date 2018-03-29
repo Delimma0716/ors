@@ -1,7 +1,7 @@
 <template>
   <div class="mainBox">
     <o-sidebar></o-sidebar>
-    <router-view/>
+    <router-view class="subBox"/>
   </div>
 </template>
 
@@ -28,5 +28,9 @@ import SideBar from '@/components/sidebar'
   top: 61px;
   left: 0;
   display: flex;
+  .subBox{
+    width:100%;
+    padding:5%;
+  }
 }
 </style>
