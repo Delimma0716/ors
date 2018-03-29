@@ -12,7 +12,7 @@ import SideBar from '@/components/sidebar'
       if(this.$route.name==='个人中心'){
         this.$router.push('settings')
       }else{
-        this.$router.push('settings/info')
+        // this.$router.push('settings/info')
       }
     },
     components:{

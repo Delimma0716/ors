@@ -130,6 +130,13 @@ import axios from 'axios'
       }
     },
     mounted() {
+      // 弹出确认框
+      this.$confirm('您还未认证，请先通过企业认证', '提示', {
+        confirmButtonText: '确定',
+        type: 'warning'
+      }).then(() => {
+        this.$router.push({name:'企业认证'})
+      })
     }
   }
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div class="side">
   <el-menu
-      :default-active="routes[0].path"
       :router="true"
       class="el-menu-vertical">
       <el-menu-item v-for="route in routes" :index="route.path">
