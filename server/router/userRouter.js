@@ -17,7 +17,9 @@ userRouter.post('/login', (req, res) => {
   let sql = "select user_password from user where user_account = ?"
   db.query(sql, [account], (err, rows) => {
     if (err) {
-      throw err
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      console.log('error:', err)
     } else {
       if (rows.length === 0) {
         data.retCode = -1
@@ -25,7 +27,7 @@ userRouter.post('/login', (req, res) => {
       } else {
         if (rows[0].user_password === password) {
           data.retCode = 1
-          data.msg = '用户名密码正确'
+          data.msg = '登录成功'
         } else {
           data.retCode = -1
           data.msg = '密码错误'
@@ -43,7 +45,9 @@ userRouter.post('/register', (req, res) => {
   let sql = "select user_password from user where user_account = ?"
   db.query(sql, [account], (err, rows) => {
     if (err) {
-      throw err
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      console.log('error:', err)
     } else {
       if (rows.length === 1) {
         data.retCode = -1
@@ -52,7 +56,9 @@ userRouter.post('/register', (req, res) => {
         let sql2 = "insert into user(user_account,user_password) values (?,?)"
         db.query(sql2, [account, password], (err, rows) => {
           if (err) {
-            throw err
+            data.retCode = 0
+            data.msg = '系统内部错误'
+            console.log('error:', err)
           } else {
             data.retCode = 1
             data.msg = '注册成功'

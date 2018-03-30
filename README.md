@@ -32,3 +32,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 前端 vue vue-router
 后端 express
 数据库 mysql
+
+bug
+1.如果显示账号已被注册，再注册新用户时还是显示已注册
