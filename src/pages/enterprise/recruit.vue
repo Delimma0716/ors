@@ -115,7 +115,7 @@ import axios from 'axios'
               })
             } else {
                this.$message({
-                type: 'warning',
+                type: 'error',
                 message: response.data.msg
               })
             }

@@ -53,11 +53,11 @@ import axios from 'axios'
             if (response.data.retCode === 1) {
               this.enForm.name=response.data.msg.en_name
               this.enForm.desc=response.data.msg.en_desc
-              this.enForm.addr=response.data.msg.en_name
+              this.enForm.addr=response.data.msg.en_addr
               this.enForm.tel=response.data.msg.en_tel
             } else {
                this.$message({
-                type: 'warning',
+                type: 'error',
                 message: response.data.msg
               })
             }
@@ -95,7 +95,7 @@ import axios from 'axios'
               })
             } else {
                this.$message({
-                type: 'warning',
+                type: 'error',
                 message: response.data.msg
               })
             }
