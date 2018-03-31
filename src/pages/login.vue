@@ -83,6 +83,8 @@
 
 <script>
 import axios from 'axios'
+//加密模块
+import crypto from 'crypto'
 
 export default {
   data () {
@@ -127,10 +129,12 @@ export default {
       } else if (this.loginForm.password === '') {
         this.hintmsg = '密码为空'
       } else {
+        // 密码md5加密
+        let md5Pwd = crypto.createHash('md5').update(this.loginForm.password).digest('hex')
         axios
           .post('/user/login', {
             account: this.loginForm.account,
-            password: this.loginForm.password
+            password: md5Pwd
           })
           .then(response => {
             if (response.data.retCode === 1) {
@@ -145,7 +149,7 @@ export default {
           })
       }
     },
-    // 注册
+    // 用户注册
     register () {
       this.hintmsg = ''
       // 校验表单是否完整
@@ -156,10 +160,12 @@ export default {
       } else if (this.regForm.password !== this.regForm.password2) {
         this.hintmsg = '两次密码不一致'
       } else {
+        // 密码md5加密
+        let md5Pwd = crypto.createHash('md5').update(this.regForm.password).digest('hex')
         axios
           .post('/user/register', {
             account: this.regForm.account,
-            password: this.regForm.password
+            password: md5Pwd
           })
           .then(response => {
             if (response.data.retCode === 1) {
@@ -183,10 +189,12 @@ export default {
       } else if (this.loginForm.password === '') {
         this.hintmsg = '密码为空'
       } else {
+        // 密码md5加密
+        let md5Pwd = crypto.createHash('md5').update(this.loginForm.password).digest('hex')
         axios
           .post('/enter/login', {
             account: this.loginForm.account,
-            password: this.loginForm.password
+            password: md5Pwd
           })
           .then(response => {
             if (response.data.retCode === 1) {
@@ -213,10 +221,12 @@ export default {
       } else if (this.regForm.password !== this.regForm.password2) {
         this.hintmsg = '两次密码不一致'
       } else {
+        // 密码md5加密
+        let md5Pwd = crypto.createHash('md5').update(this.regForm.password).digest('hex')
         axios
           .post('/enter/register', {
             account: this.regForm.account,
-            password: this.regForm.password
+            password: md5Pwd
           })
           .then(response => {
             if (response.data.retCode === 1) {
