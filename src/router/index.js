@@ -24,6 +24,7 @@ export default new Router({
           path: 'settings',
           name: '个人中心',
           component: Settings,
+          redirect: 'settings/info',
           children: [
             {
               path: 'info',
@@ -56,11 +57,13 @@ export default new Router({
       path: '/enterprise',
       name: '企业首页',
       component: EnterIndex,
+      redirect: '/enterprise/recruit',
       children: [
         {
           path: 'settings',
           name: '企业中心',
           component: Settings,
+          redirect: 'settings/info',
           children: [
             {
               path: 'info',

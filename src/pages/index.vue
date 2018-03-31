@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <o-header></o-header>
     <router-view/>
   </div>
@@ -10,14 +10,19 @@ import Header from '@/components/header'
 export default {
   data() {
     return {
-      user: ''
     }
   },
   components: {
     'o-header': Header
   },
   mounted() {
-    // this.$router.push('/login')
   }
 }
 </script>
+
+<style lang="less" scoped>
+  .main{
+    width:100%;
+    height:100%;
+  }
+</style>

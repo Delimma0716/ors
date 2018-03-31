@@ -9,11 +9,6 @@
 import SideBar from '@/components/sidebar'
   export default {
     mounted(){
-      if(this.$route.name==='个人中心'){
-        this.$router.push('settings')
-      }else{
-        // this.$router.push('settings/info')
-      }
     },
     components:{
       'o-sidebar':SideBar
@@ -24,13 +19,14 @@ import SideBar from '@/components/sidebar'
 <style lang="less" scoped>
 .mainBox {
   width: 100%;
+  height:100%;
   position: relative;
   top: 61px;
   left: 0;
   display: flex;
   .subBox{
     width:100%;
-    padding:5%;
+    padding:5% 2%;
   }
 }
 </style>

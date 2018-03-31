@@ -1,13 +1,19 @@
 <template>
   <div class="fixed">
-    <el-menu :default-active="routes[0].path" class="el-menu-demo" mode="horizontal" :router="true">
+    <el-menu default-active="/apply" class="el-menu-demo" mode="horizontal" :router="true">
       <div class="logo"></div>
-      <el-menu-item v-for="route in routes" :index="route.path">{{route.name}}</el-menu-item>
-      <el-submenu>
-        <template slot="title" index="">{{username}},你好</template>
-        <el-menu-item index="settings">个人中心</el-menu-item>
-        <el-menu-item @click="exit">退出</el-menu-item>
-      </el-submenu>
+      <el-menu-item index="/apply">找工作</el-menu-item>
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link">
+          {{username}},你好<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="settings">
+            个人中心
+          </el-dropdown-item>
+          <el-dropdown-item command="exit">退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </el-menu>
   </div>
 </template>
@@ -16,11 +22,21 @@
 export default {
   data () {
     return {
-      routes: this.$router.options.routes[0].children.slice(1,2),
       username: ''
     }
   },
   methods: {
+    handleCommand(command) {
+      switch (command) {
+        case 'exit':
+          this.exit()
+          break
+      
+        case 'settings':
+          this.$router.push('/settings')
+          break
+      }
+    },
     exit(){
       localStorage.clear()
       this.$router.push('/login')
@@ -51,6 +67,10 @@ export default {
     top: 0;
     left: 0;
     background: #879adc;
+  }
+  .el-dropdown-link{
+    line-height:58px;
+    margin:0 20px;
   }
 }
 </style>

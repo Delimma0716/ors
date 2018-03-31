@@ -8,7 +8,14 @@
 export default {
   name: 'App',
   mounted(){
-    this.$router.push('login')
+    // 已登陆过直接进入首页
+    if(localStorage.getItem('user_account')){
+      // this.$router.push('apply')
+    }else if(localStorage.getItem('en_account')){
+      // this.$router.push('enterprise/recruit')
+    }else{
+      this.$router.push('login')
+    }
   }
 }
 </script>

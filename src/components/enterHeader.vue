@@ -1,13 +1,19 @@
 <template>
   <div class="fixed">
-    <el-menu default-active="" class="el-menu-demo" mode="horizontal" :router="true">
+    <el-menu default-active="/enterprise/recruit" class="el-menu-demo" mode="horizontal" :router="true">
       <div class="logo"></div>
       <el-menu-item index="/enterprise/recruit">发布职位</el-menu-item>
-      <el-submenu>
-        <template slot="title">{{entername}},你好</template>
-        <el-menu-item index="settings">企业中心</el-menu-item>
-        <el-menu-item @click="exit">退出</el-menu-item>
-      </el-submenu>
+      <el-dropdown @command="handleCommand">
+        <span class="el-dropdown-link">
+          {{entername}},你好<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="settings">
+            企业中心
+          </el-dropdown-item>
+          <el-dropdown-item command="exit">退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </el-menu>
   </div>
 </template>
@@ -16,10 +22,21 @@
 export default {
   data () {
     return {
-      entername: ''
+      entername: '',
     }
   },
   methods: {
+    handleCommand(command) {
+      switch (command) {
+        case 'exit':
+          this.exit()
+          break
+      
+        case 'settings':
+          this.$router.push('/enterprise/settings')
+          break
+      }
+    },
     exit(){
       localStorage.clear()
       this.$router.push('/login')
@@ -50,6 +67,10 @@ export default {
     top: 0;
     left: 0;
     background: #879adc;
+  }
+  .el-dropdown-link{
+    line-height:58px;
+    margin:0 20px;
   }
 }
 </style>
