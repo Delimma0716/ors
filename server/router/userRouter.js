@@ -4,6 +4,8 @@
 const express = require('express')
 const http = require('http')
 const userRouter = express.Router()
+const multer = require('multer')
+const upload = multer({ dest: 'upload/resume/' })
 
 const db = require('../db')
 
@@ -72,6 +74,32 @@ userRouter.post('/register', (req, res) => {
             res.json(data)
           }
         })
+      }
+    }
+  })
+})
+
+// 上传简历
+userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
+  // 简历在服务器的地址
+  let resume = req.file.path
+  let account = req.body.account
+  let sql = "UPDATE user SET user_resume = ? WHERE user_account = ?"
+  db.query(sql, [resume, account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      if (rows) {
+        data.retCode = 1
+        data.msg = '上传成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '上传失败'
+        res.json(data)
       }
     }
   })

@@ -4,15 +4,13 @@ const app = express()
 const userRouter = require('./router/userRouter')
 const enterRouter = require('./router/enterRouter')
 
-const bodyParser = require('body-parser');
-// const multer = require('multer');
+const bodyParser = require('body-parser')
 
 // for parsing application/json
 app.use(bodyParser.json())
 // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
-// for parsing multipart/form-data
-// app.use(multer()) 
+
 
 // 中间件
 app.use((req, res, next) => {
@@ -20,7 +18,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild')
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-  res.header('Access-Control-Allow-Credentials', true)  
+  res.header('Access-Control-Allow-Credentials', true)
   next()
 })
 

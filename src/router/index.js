@@ -7,6 +7,7 @@ import Settings from '@/pages/settings'
 import Recruit from '@/pages/enterprise/recruit'
 import Apply from '@/pages/apply/apply'
 import Detail from '@/pages/apply/detail'
+import Resume from '@/pages/apply/resume'
 import Certificate from '@/pages/enterprise/certificate'
 import EnterInfo from '@/pages/enterprise/info'
 
@@ -33,6 +34,7 @@ export default new Router({
             {
               path: 'resume',
               name: '我的简历',
+              component: Resume
             },
             {
               path: 'deliver',
