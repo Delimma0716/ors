@@ -83,7 +83,7 @@ enterRouter.post('/updateinfo', (req, res) => {
   let name = req.body.name
   let desc = req.body.desc
   let addr = req.body.addr
-  let tel = req.body.name
+  let tel = req.body.tel
   let sql = "UPDATE enterprise SET en_name = ?, en_desc = ?, en_addr = ?, en_tel = ? WHERE en_account = ?"
   db.query(sql, [name, desc, addr, tel, account], (err, rows) => {
     if (err) {

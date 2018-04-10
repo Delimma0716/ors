@@ -105,4 +105,21 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
   })
 })
 
+// 获取所有职位
+userRouter.post('/getalljobs', (req, res) => {
+  let sql = "SELECT job.job_name,enterprise.en_name,job.job_salary,job.job_addr FROM job,enterprise WHERE job.en_account = enterprise.en_account"
+  db.query(sql, (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter
