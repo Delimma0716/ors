@@ -140,4 +140,58 @@ userRouter.post('/getjobdetail', (req, res) => {
   })
 })
 
+// 更新个人信息
+userRouter.post('/updateinfo', (req, res) => {
+  let account = req.body.account
+  let name = req.body.name
+  let idCard = req.body.idCard
+  let sex = req.body.sex
+  let birth = req.body.birth
+  let tel = req.body.tel
+  let sql = "UPDATE user SET user_name = ?, user_idCard = ?, user_sex = ?, user_birth = ?, user_tel = ? WHERE user_account = ?"
+  db.query(sql, [name, idCard, sex, birth, tel, account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '保存成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '保存失败'
+        res.json(data)
+      }
+    }
+  })
+})
+
+// 获取个人信息
+userRouter.post('/getinfo', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT user_name, user_idCard, user_sex, user_birth, user_tel FROM user WHERE user_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      if (rows.length === 1) {
+        data.retCode = 1
+        data.msg = rows[0]
+        res.json(data)
+      } else {
+        data.retCode = 0
+        data.msg = '系统内部错误'
+        res.json(data)
+      }
+    }
+  })
+})
+
 module.exports = userRouter

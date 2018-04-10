@@ -49,14 +49,15 @@ export default {
     init () {
       axios
         .post('/user/getinfo', {
-          account: localStorage.getItem('en_account')
+          account: localStorage.getItem('user_account')
         })
         .then(response => {
           if (response.data.retCode === 1) {
-            this.enForm.name = response.data.msg.en_name
-            this.enForm.desc = response.data.msg.en_desc
-            this.enForm.addr = response.data.msg.en_addr
-            this.enForm.tel = response.data.msg.en_tel
+            this.userForm.name = response.data.msg.user_name
+            this.userForm.idCard = response.data.msg.user_idCard
+            this.userForm.sex = response.data.msg.user_sex
+            this.userForm.birth = response.data.msg.user_birth
+            this.userForm.tel = response.data.msg.user_tel
           } else {
             this.$message({
               type: 'error',
@@ -82,12 +83,13 @@ export default {
     // 更新数据库
     update () {
       axios
-        .post('/enter/updateinfo', {
-          account: localStorage.getItem('en_account'),
-          name: this.enForm.name,
-          desc: this.enForm.desc,
-          addr: this.enForm.addr,
-          tel: this.enForm.tel
+        .post('/user/updateinfo', {
+          account: localStorage.getItem('user_account'),
+          name: this.userForm.name,
+          idCard: this.userForm.idCard,
+          sex: this.userForm.sex,
+          birth: this.userForm.birth,
+          tel: this.userForm.tel
         })
         .then(response => {
           if (response.data.retCode === 1) {
