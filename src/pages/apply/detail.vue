@@ -12,7 +12,8 @@
         </el-col>
         <el-col :span="6">
           <el-button type="primary">收藏</el-button>
-          <el-button type="primary">申请</el-button>
+          <el-button type="warning" icon="el-icon-check" disabled v-if="sended">已投递</el-button>
+          <el-button type="primary" @click="send" v-else>投递</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -50,12 +51,14 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      sended: false,
       job_id: this.$route.params.job_id,
       details: {},
       activeName: 'second'
     }
   },
   mounted () {
+    this.checkSend()
     this.getJobDetail()
   },
   methods: {
@@ -79,6 +82,60 @@ export default {
           console.log(error)
         })
     },
+    // 检查是否投递过
+    checkSend () {
+      axios
+        .post('/user/checksend', {
+          account: localStorage.getItem('user_account'),
+          id: this.job_id
+        })
+        .then(response => {
+          if (response.data.retCode === 1) {
+            this.sended = response.data.msg
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 投递
+    send () {
+      // 弹出确认框
+      this.$confirm('确定信息已完善并投递简历吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.sendResume()
+      })
+    },
+    // 投递简历
+    sendResume () {
+      axios
+        .post('/user/sendresume', {
+          uaccount: localStorage.getItem('user_account'),
+          eaccount: this.details.en_account,
+          id: this.job_id,
+          status: 0
+        })
+        .then(response => {
+          if (response.data.retCode === 1) {
+            this.$message({
+              type: 'success',
+              message: response.data.msg
+            })
+            this.sended = true
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.msg
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   }
 }
 </script>

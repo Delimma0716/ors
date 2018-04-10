@@ -194,4 +194,45 @@ userRouter.post('/getinfo', (req, res) => {
   })
 })
 
+// 检查是否投递过
+userRouter.post('/checksend', (req, res) => {
+  let account = req.body.account
+  let id = req.body.id
+  let sql = "SELECT de_id FROM deliver WHERE user_account = ? AND job_id = ?"
+  db.query(sql, [account, id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows.length > 0 ? true : false
+      res.json(data)
+    }
+  })
+})
+
+// 投递
+userRouter.post('/sendresume', (req, res) => {
+  let uaccount = req.body.uaccount
+  let eaccount = req.body.eaccount
+  let id = req.body.id
+  let status = req.body.status
+  let sql = "insert into deliver(user_account,en_account,job_id,de_status) values (?,?,?,?)"
+  db.query(sql, [uaccount, eaccount, id, status], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      let data = {}
+      data.retCode = 1
+      data.msg = '投递成功'
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter
