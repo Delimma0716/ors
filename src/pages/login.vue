@@ -116,8 +116,13 @@ export default {
       isEnter: false
     }
   },
-  mounted () { 
-    localStorage.clear()
+  mounted () {
+    // 已登陆过直接进入首页
+    if (localStorage.getItem('user_account')) {
+      this.$router.push('/apply')
+    } else if (localStorage.getItem('en_account')) {
+      this.$router.push('/enterprise/recruit')
+    }
   },
   methods: {
     // 用户登录
