@@ -28,6 +28,7 @@
 <script>
 import axios from 'axios'
 const statusList = ['未查看', '已查看', '感兴趣', '不合适']
+const rowStyleList = ['warning-row', '', 'success-row', '']
 
 export default {
   data () {
@@ -65,12 +66,7 @@ export default {
     },
     // 根据投递状态设置表格样式
     tableRowClassName ({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return 'warning-row';
-      } else if (rowIndex === 3) {
-        return 'success-row';
-      }
-      return '';
+      return rowStyleList[row.de_status]
     }
   }
 }
