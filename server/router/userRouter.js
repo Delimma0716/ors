@@ -235,4 +235,22 @@ userRouter.post('/sendresume', (req, res) => {
   })
 })
 
+// 获取所有投递
+userRouter.post('/getalldelivers', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT job.job_name,enterprise.en_name,deliver.de_status FROM (job INNER JOIN enterprise ON job.en_account = enterprise.en_account) INNER JOIN deliver ON job.job_id = deliver.job_id WHERE user_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter

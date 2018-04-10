@@ -9,6 +9,7 @@ import Apply from '@/pages/apply/apply'
 import Detail from '@/pages/apply/detail'
 import Resume from '@/pages/apply/resume'
 import UserInfo from '@/pages/apply/info'
+import Deliver from '@/pages/apply/deliver'
 import Certificate from '@/pages/enterprise/certificate'
 import EnterInfo from '@/pages/enterprise/info'
 
@@ -41,6 +42,7 @@ export default new Router({
             {
               path: 'deliver',
               name: '我的投递',
+              component: Deliver
             }
           ]
         },
