@@ -100,6 +100,8 @@
       <el-row>
         <el-col :span="16" :offset="4">
           <el-table :data="tableData" style="width: 100%" @row-click="detail">
+            <el-table-column prop="job_id" label="职位编号">
+            </el-table-column>
             <el-table-column prop="job_name" label="职位名称">
             </el-table-column>
             <el-table-column prop="en_name" label="公司名称">
@@ -155,8 +157,8 @@ export default {
         }
       ],
       dateValue: '',
-      salaryRadio:'',
-      dateRadio:'',
+      salaryRadio: '',
+      dateRadio: '',
       tableData: []
     }
   },
@@ -183,9 +185,8 @@ export default {
         })
     },
     // 显示职位细节
-    detail (row, event, column) {
-      console.log(row, event, column)
-      this.$router.push('/detail')
+    detail (row) {
+      this.$router.push('/detail/' + row.job_id)
     }
   }
 }

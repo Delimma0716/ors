@@ -105,9 +105,9 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
   })
 })
 
-// 获取所有职位
+// 获取所有职位简略信息
 userRouter.post('/getalljobs', (req, res) => {
-  let sql = "SELECT job.job_name,enterprise.en_name,job.job_salary,job.job_addr FROM job,enterprise WHERE job.en_account = enterprise.en_account"
+  let sql = "SELECT job.job_id,job.job_name,enterprise.en_name,job.job_salary,job.job_addr FROM job,enterprise WHERE job.en_account = enterprise.en_account"
   db.query(sql, (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -117,6 +117,24 @@ userRouter.post('/getalljobs', (req, res) => {
     } else {
       data.retCode = 1
       data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
+// 获取职位详细信息
+userRouter.post('/getjobdetail', (req, res) => {
+  let id = req.body.id
+  let sql = "SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id = ?"
+  db.query(sql, [id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows[0]
       res.json(data)
     }
   })

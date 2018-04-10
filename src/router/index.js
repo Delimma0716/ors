@@ -8,6 +8,7 @@ import Recruit from '@/pages/enterprise/recruit'
 import Apply from '@/pages/apply/apply'
 import Detail from '@/pages/apply/detail'
 import Resume from '@/pages/apply/resume'
+import UserInfo from '@/pages/apply/info'
 import Certificate from '@/pages/enterprise/certificate'
 import EnterInfo from '@/pages/enterprise/info'
 
@@ -30,6 +31,7 @@ export default new Router({
             {
               path: 'info',
               name: '基本信息',
+              component: UserInfo
             },
             {
               path: 'resume',
@@ -48,7 +50,7 @@ export default new Router({
           component: Apply,
         },
         {
-          path: 'detail',
+          path: 'detail/:job_id',
           name: '职位详情',
           component: Detail
         }
