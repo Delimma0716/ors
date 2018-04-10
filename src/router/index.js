@@ -10,6 +10,7 @@ import Detail from '@/pages/apply/detail'
 import Resume from '@/pages/apply/resume'
 import UserInfo from '@/pages/apply/info'
 import Deliver from '@/pages/apply/deliver'
+import EnterDeliver from '@/pages/enterprise/deliver'
 import Certificate from '@/pages/enterprise/certificate'
 import EnterInfo from '@/pages/enterprise/info'
 
@@ -89,6 +90,7 @@ export default new Router({
             {
               path: 'deliver',
               name: '投递管理',
+              component: EnterDeliver
             }
           ]
         },

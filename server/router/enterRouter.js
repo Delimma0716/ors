@@ -163,4 +163,22 @@ enterRouter.post('/postjob', (req, res) => {
   })
 })
 
+// 获取所有投递
+enterRouter.post('/getalldelivers', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT * FROM (deliver INNER JOIN user ON deliver.user_account = user.user_account) INNER JOIN job ON deliver.job_id = job.job_id WHERE deliver.en_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
 module.exports = enterRouter

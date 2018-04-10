@@ -25,7 +25,7 @@ import SideBar from '@/components/sidebar'
   left: 0;
   display: flex;
   .subBox{
-    width:100%;
+    width:80%;
     padding:5% 2%;
   }
 }
