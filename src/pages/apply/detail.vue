@@ -34,7 +34,7 @@
     <div class="detail">
       <el-row>
         <el-col :span="16" :offset="4">
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName">
             <el-tab-pane label="职位描述" name="first">{{details.job_info}}</el-tab-pane>
             <el-tab-pane label="公司介绍" name="second">{{details.en_desc}}</el-tab-pane>
             <el-tab-pane label="联系方式" name="third">{{details.en_tel}}</el-tab-pane>

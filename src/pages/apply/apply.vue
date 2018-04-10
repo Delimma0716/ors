@@ -73,8 +73,8 @@
           </el-select>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="value" placeholder="...">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          <el-select v-model="dateValue" placeholder="...">
+            <el-option v-for="item in dateOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-col>
@@ -120,7 +120,7 @@
     <div class="page">
       <el-row>
         <el-col :span="16" :offset="8">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+          <el-pagination :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
           </el-pagination>
         </el-col>
       </el-row>
