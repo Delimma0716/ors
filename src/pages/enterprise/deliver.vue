@@ -35,10 +35,11 @@
       </el-table-column>
       <el-table-column label="投递状态" fixed="right" prop="de_status">
       </el-table-column>
-      <el-table-column label="标记为" width="180" fixed="right">
+      <el-table-column label="标记为" width="270" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">感兴趣</el-button>
-          <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">不合适</el-button>
+          <el-button size="mini" @click="updateStatus(scope.row.de_id,1)">已查看</el-button>          
+          <el-button size="mini" type="danger" @click="updateStatus(scope.row.de_id,2)">感兴趣</el-button>
+          <el-button size="mini" @click="updateStatus(scope.row.de_id,3)">不合适</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -79,6 +80,30 @@ export default {
           console.log(error)
         })
     },
+    // 更改投递状态
+    updateStatus (id, status) {
+      axios
+        .post('/enter/updatestatus', {
+          id: id,
+          status: status
+        })
+        .then(response => {
+          if (response.data.retCode === 1) {
+            this.$message({
+              type: 'success',
+              message: response.data.msg
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.msg
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     // 下载简历
     download (path) {
       axios
@@ -89,12 +114,6 @@ export default {
         .catch(error => {
           console.log(error)
         })
-    },
-    handleEdit (index, row) {
-      console.log(index, row);
-    },
-    handleDelete (index, row) {
-      console.log(index, row);
     }
   }
 }

@@ -181,4 +181,36 @@ enterRouter.post('/getalldelivers', (req, res) => {
   })
 })
 
+/**
+ * 更新投递状态
+ * 0-未查看
+ * 1-已查看
+ * 2-感兴趣
+ * 3-不合适
+ */
+enterRouter.post('/updatestatus', (req, res) => {
+  let id = req.body.id
+  let status = req.body.status
+  let sql = "UPDATE deliver SET de_status = ? WHERE de_id = ?"
+  db.query(sql, [status, id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '更改成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '更改失败'
+        res.json(data)
+      }
+    }
+  })
+})
+
 module.exports = enterRouter
