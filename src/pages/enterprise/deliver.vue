@@ -33,13 +33,13 @@
           <el-button size="mini" @click="download(scope.row.user_resume)">下载</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="投递状态" fixed="right" prop="de_status">
+      <el-table-column label="投递状态" fixed="right" prop="de_status" :formatter="statusFormat">
       </el-table-column>
       <el-table-column label="标记为" width="270" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="updateStatus(scope.row.de_id,1)">已查看</el-button>          
-          <el-button size="mini" type="danger" @click="updateStatus(scope.row.de_id,2)">感兴趣</el-button>
-          <el-button size="mini" @click="updateStatus(scope.row.de_id,3)">不合适</el-button>
+          <el-button size="mini" @click="updateStatus(scope.$index, scope.row.de_id,1)">已查看</el-button>
+          <el-button size="mini" type="danger" @click="updateStatus(scope.$index,scope.row.de_id,2)">感兴趣</el-button>
+          <el-button size="mini" @click="updateStatus(scope.$index,scope.row.de_id,3)">不合适</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -49,6 +49,8 @@
 <script>
 import axios from 'axios'
 import fs from 'fs'
+
+const statusList = ['未查看', '已查看', '感兴趣', '不合适']
 
 export default {
   data () {
@@ -81,7 +83,7 @@ export default {
         })
     },
     // 更改投递状态
-    updateStatus (id, status) {
+    updateStatus (index, id, status) {
       axios
         .post('/enter/updatestatus', {
           id: id,
@@ -93,6 +95,7 @@ export default {
               type: 'success',
               message: response.data.msg
             })
+            this.tableData[index].de_status = status
           } else {
             this.$message({
               type: 'error',
@@ -103,6 +106,10 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    // 投递状态格式化
+    statusFormat (cellValue) {
+      return statusList[cellValue.de_status]
     },
     // 下载简历
     download (path) {
