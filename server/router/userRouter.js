@@ -253,4 +253,22 @@ userRouter.post('/getalldelivers', (req, res) => {
   })
 })
 
+// 检查是否上传过简历
+userRouter.post('/checkresume', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT user_resume FROM user WHERE user_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows.length > 0 ? true : false
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter
