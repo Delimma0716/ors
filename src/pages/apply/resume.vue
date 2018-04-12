@@ -67,6 +67,7 @@ export default {
           type: 'success',
           message: response.msg
         })
+        this.upload = false
       } else {
         this.$message({
           type: 'error',

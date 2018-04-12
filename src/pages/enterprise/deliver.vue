@@ -7,7 +7,20 @@
       </el-button>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item>所有</el-dropdown-item>
-        <el-dropdown-item>未查看</el-dropdown-item>
+        <el-dropdown-item>已查看</el-dropdown-item>
+        <el-dropdown-item>感兴趣</el-dropdown-item>
+        <el-dropdown-item>不合适</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+
+    <el-dropdown>
+      <el-button type="primary">
+        职位名称
+        <i class="el-icon-arrow-down el-icon--right"></i>
+      </el-button>
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item>所有</el-dropdown-item>
+        <el-dropdown-item>已查看</el-dropdown-item>
         <el-dropdown-item>感兴趣</el-dropdown-item>
         <el-dropdown-item>不合适</el-dropdown-item>
       </el-dropdown-menu>

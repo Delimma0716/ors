@@ -13,6 +13,7 @@ import Deliver from '@/pages/apply/deliver'
 import EnterDeliver from '@/pages/enterprise/deliver'
 import Certificate from '@/pages/enterprise/certificate'
 import EnterInfo from '@/pages/enterprise/info'
+import Job from '@/pages/enterprise/job'
 
 Vue.use(Router)
 
@@ -86,6 +87,7 @@ export default new Router({
             {
               path: 'position',
               name: '职位编辑',
+              component: Job
             },
             {
               path: 'deliver',

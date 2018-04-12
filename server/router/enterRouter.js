@@ -213,4 +213,47 @@ enterRouter.post('/updatestatus', (req, res) => {
   })
 })
 
+// 获取所有职位
+enterRouter.post('/getjobs', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT * FROM job WHERE en_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
+// 删除职位
+enterRouter.post('/deletejob', (req, res) => {
+  let id = req.body.id
+  let sql = "DELETE FROM job WHERE job_id = ?"
+  db.query(sql, [id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '删除成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '删除失败'
+        res.json(data)
+      }
+    }
+  })
+})
+
 module.exports = enterRouter
