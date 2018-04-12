@@ -1,19 +1,52 @@
 <template>
   <div>
-    <el-table :data="tableData" style="width: 100%;">
+    <el-table :data="tableData" style="width: 100%;" v-show="showTable">
       <el-table-column label="编号" width="80" type="index">
       </el-table-column>
-      <el-table-column label="职位名称" width="120" prop="job_name">
+      <el-table-column label="职位名称" prop="job_name">
       </el-table-column>
-      <el-table-column label="发布时间" width="180" prop="job_date">
+      <el-table-column label="发布时间" prop="job_date">
       </el-table-column>
-      <el-table-column label="操作" width="270">
+      <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini">编辑</el-button>
+          <el-button size="mini" @click="goEdit(scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="goDelete(scope.$index,scope.row.job_id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+
+    <el-form :model="jobForm" :rules="rules" ref="jobForm" label-width="100px" class="demo-jobForm" v-show="!showTable">
+      <el-form-item label="职位名称" prop="name">
+        <el-input v-model="jobForm.name" placeholder="项目经理"></el-input>
+      </el-form-item>
+      <el-form-item label="职位薪资" prop="salary">
+        <el-input v-model="jobForm.salary" placeholder="10k-15k"></el-input>
+      </el-form-item>
+      <el-form-item label="工作地点" prop="addr">
+        <el-input v-model="jobForm.addr" placeholder="北京"></el-input>
+      </el-form-item>
+      <el-form-item label="工作经验" prop="exp">
+        <el-input v-model="jobForm.exp" placeholder="1-3年"></el-input>
+      </el-form-item>
+      <el-form-item label="学历" prop="edu">
+        <el-input v-model="jobForm.edu" placeholder="本科"></el-input>
+      </el-form-item>
+      <el-form-item label="工作时间" prop="time">
+        <el-input v-model="jobForm.time" placeholder="全职"></el-input>
+      </el-form-item>
+      <el-form-item label="职位描述" prop="info">
+        <el-input 
+          type="textarea" 
+          v-model="jobForm.info" 
+          :autosize="{ minRows: 5 }"
+          placeholder="职位信息,任职要求">
+          </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="saveForm('jobForm')">保存</el-button>
+        <el-button @click="clearForm('jobForm')">取消</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -23,7 +56,37 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      tableData: []
+      showTable: true,
+      tableData: [],
+      jobForm: {
+          name: '',
+          salary: '',
+          addr:'',
+          exp:'',
+          edu:'',
+          time:'',
+          info:'',
+        },
+        rules: {
+          name: [
+            { required: true, message: ' ', trigger: 'blur' },
+          ],
+          salary: [
+            { required: true, message: ' ', trigger: 'blur' },
+          ],
+          addr:[
+            { required: true, message: ' ', trigger: 'blur' },
+          ],
+          exp:[
+            { required: true, message: ' ', trigger: 'blur' },
+          ],
+          edu:[
+            { required: true, message: ' ', trigger: 'blur' },
+          ],
+          time:[
+            { required: true, message: ' ', trigger: 'blur' },
+          ]
+        }
     }
   },
   mounted () {
@@ -50,9 +113,28 @@ export default {
           console.log(error)
         })
     },
+    // 编辑
+    goEdit (row) {
+      this.jobForm.name=row.job_name,
+      this.jobForm.salary=row.job_salary,
+      this.jobForm.addr=row.job_addr,
+      this.jobForm. exp=row.job_exp,
+      this.jobForm.edu=row.job_edu,
+      this.jobForm.time=row.job_time,
+      this.jobForm.info=row.job_info,
+      this.showTable = false
+    },
+    // 清空表单
+    clearForm(formName) {
+      this.$refs[formName].resetFields()
+      this.showTable = true
+    },
+    // 保存
+    save() {
+
+    },
     // 删除
     goDelete (index, id) {
-      console.log(2333)
       // 弹出确认框
       this.$confirm('确定删除吗？', '提示', {
         confirmButtonText: '确定',
