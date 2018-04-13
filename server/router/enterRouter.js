@@ -256,4 +256,36 @@ enterRouter.post('/deletejob', (req, res) => {
   })
 })
 
+// 更新职位信息
+enterRouter.post('/updatejob', (req, res) => {
+  let id = req.body.id
+  let name = req.body.name
+  let salary = req.body.salary
+  let addr = req.body.addr
+  let exp = req.body.exp
+  let edu = req.body.edu
+  let time = req.body.time
+  let info = req.body.info
+  let sql = "UPDATE job SET job_name = ? , job_addr = ? , job_salary = ? , job_exp = ? , job_edu = ? , job_time = ? , job_info = ? WHERE job_id = ?"
+  db.query(sql, [name, addr, salary, exp, edu, time, info, id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      console.log(rows)
+      if (rows) {
+        data.retCode = 1
+        data.msg = '保存成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '保存失败'
+        res.json(data)
+      }
+    }
+  })
+})
+
 module.exports = enterRouter

@@ -35,15 +35,11 @@
         <el-input v-model="jobForm.time" placeholder="全职"></el-input>
       </el-form-item>
       <el-form-item label="职位描述" prop="info">
-        <el-input 
-          type="textarea" 
-          v-model="jobForm.info" 
-          :autosize="{ minRows: 5 }"
-          placeholder="职位信息,任职要求">
-          </el-input>
+        <el-input type="textarea" v-model="jobForm.info" :autosize="{ minRows: 5 }" placeholder="职位信息,任职要求">
+        </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="saveForm('jobForm')">保存</el-button>
+        <el-button type="primary" @click="save('jobForm')">保存</el-button>
         <el-button @click="clearForm('jobForm')">取消</el-button>
       </el-form-item>
     </el-form>
@@ -56,37 +52,39 @@ import axios from 'axios'
 export default {
   data () {
     return {
+      // 当前编辑的职位id
+      editId: '',
       showTable: true,
       tableData: [],
       jobForm: {
-          name: '',
-          salary: '',
-          addr:'',
-          exp:'',
-          edu:'',
-          time:'',
-          info:'',
-        },
-        rules: {
-          name: [
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          salary: [
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          addr:[
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          exp:[
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          edu:[
-            { required: true, message: ' ', trigger: 'blur' },
-          ],
-          time:[
-            { required: true, message: ' ', trigger: 'blur' },
-          ]
-        }
+        name: '',
+        salary: '',
+        addr: '',
+        exp: '',
+        edu: '',
+        time: '',
+        info: '',
+      },
+      rules: {
+        name: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ],
+        salary: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ],
+        addr: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ],
+        exp: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ],
+        edu: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ],
+        time: [
+          { required: true, message: ' ', trigger: 'blur' },
+        ]
+      }
     }
   },
   mounted () {
@@ -115,23 +113,65 @@ export default {
     },
     // 编辑
     goEdit (row) {
-      this.jobForm.name=row.job_name,
-      this.jobForm.salary=row.job_salary,
-      this.jobForm.addr=row.job_addr,
-      this.jobForm. exp=row.job_exp,
-      this.jobForm.edu=row.job_edu,
-      this.jobForm.time=row.job_time,
-      this.jobForm.info=row.job_info,
-      this.showTable = false
+      this.jobForm.name = row.job_name,
+        this.jobForm.salary = row.job_salary,
+        this.jobForm.addr = row.job_addr,
+        this.jobForm.exp = row.job_exp,
+        this.jobForm.edu = row.job_edu,
+        this.jobForm.time = row.job_time,
+        this.jobForm.info = row.job_info,
+        this.showTable = false
+      this.editId = row.job_id
     },
     // 清空表单
-    clearForm(formName) {
+    clearForm (formName) {
       this.$refs[formName].resetFields()
       this.showTable = true
     },
     // 保存
-    save() {
-
+    save (form) {
+      console.log(this.jobForm)
+      // 弹出确认框
+      this.$confirm('确定保存吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.saveForm(this.jobForm)
+      })
+    },
+    // 确认保存
+    saveForm (form) {
+      axios
+        .post('/enter/updatejob', {
+          id: this.editId,
+          name: form.name,
+          salary: form.salary,
+          addr: form.addr,
+          exp: form.exp,
+          edu: form.edu,
+          time: form.time,
+          info: form.info
+        })
+        .then(response => {
+          if (response.data.retCode === 1) {
+            this.$message({
+              type: 'success',
+              message: response.data.msg
+            })
+            this.showTable = true
+            // 重新获取最新职位信息
+            this.getJobs()
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.msg
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     // 删除
     goDelete (index, id) {
