@@ -1,0 +1,44 @@
+{
+    "git.ignoreMissingGitWarning": true,
+    "editor.fontSize": 16,
+    "editor.tabSize": 2,
+    "eslint.autoFixOnSave": true,
+    // 空格变成......
+    "editor.renderWhitespace": "all",
+    "window.zoomLevel": 0,
+    "extensions.ignoreRecommendations": true,
+    "emmet.syntaxProfiles": {
+        "vue-html": "html",
+        "vue": "html"
+    },
+    "vetur.validation.template": false,
+    "eslint.options": {
+        "plugins": [
+            "html"
+        ]
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "vue",
+            "autoFix": true
+        }
+    ],
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "vetur.format.defaultFormatter.js": "vscode-typescript",
+    "vetur.format.defaultFormatter.html": "js-beautify-html",
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "vetur.format.defaultFormatterOptions": {
+        "wrap_attributes": "force-aligned"
+    },
+    "workbench.colorTheme": "Default Light+"
+}

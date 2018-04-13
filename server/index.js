@@ -3,6 +3,7 @@ const app = express()
 
 const userRouter = require('./router/userRouter')
 const enterRouter = require('./router/enterRouter')
+const publicRouter = require('./router/publicRouter')
 
 const bodyParser = require('body-parser')
 
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
 app.use('/user', userRouter)
 // 企业路由
 app.use('/enter', enterRouter)
+// 公共路由
+app.use('/public', publicRouter)
 
 const server = app.listen(3000, function () {
   const host = server.address().address

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box" v-if="upload">
+    <div class="box" v-if="showUpload">
       <h1>上传简历</h1>
       <el-upload class="upload-demo" action="http://localhost:3000/user/upload/resume" ref="upload" name="resume" :data="uploadFrom" :multiple="false" :auto-upload="false" :on-success="handleSuccess" :before-upload="checkFile">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -11,7 +11,7 @@
     </div>
     <div class="box" v-else>
       <h1>我的简历</h1>
-      <el-button size="small" type="primary">查看</el-button>
+      <a :href="'http://localhost:3000/public/download/resume/'+resumePath">下载</a>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="toUpload">重新上传</el-button>
     </div>
   </div>
@@ -19,14 +19,16 @@
 
 <script>true
 import axios from 'axios'
+const fs = require('fs')
 
 export default {
   data () {
     return {
-      upload: false,
+      showUpload: false,
       uploadFrom: {
         account: localStorage.getItem('user_account')
-      }
+      },
+      resumePath: ''
     }
   },
   mounted () {
@@ -41,7 +43,9 @@ export default {
         })
         .then(response => {
           if (response.data.retCode === 1) {
-            this.upload = !response.data.msg
+            this.showUpload = !response.data.msg.hasResume
+            // 去掉前面的upload
+            this.resumePath = response.data.msg.resume
           }
         })
         .catch(error => {
@@ -50,11 +54,11 @@ export default {
     },
     // 重新上传
     toUpload () {
-      this.upload = true
+      this.showUpload = true
     },
     // 取消
     cancel () {
-      this.upload = false
+      this.showUpload = false
     },
     // 上传文件
     submitUpload () {
@@ -67,7 +71,7 @@ export default {
           type: 'success',
           message: response.msg
         })
-        this.upload = false
+        this.showUpload = false
       } else {
         this.$message({
           type: 'error',
