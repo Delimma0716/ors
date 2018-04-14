@@ -61,7 +61,6 @@
 
 <script>
 import axios from 'axios'
-import fs from 'fs'
 
 const statusList = ['未查看', '已查看', '感兴趣', '不合适']
 

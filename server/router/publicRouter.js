@@ -30,4 +30,21 @@ publicRouter.get('/download/license/:name', (req, res) => {
   fs.createReadStream(file).pipe(res)
 })
 
+// 获取所有企业信息
+publicRouter.post('/allenterinfo', (req, res) => {
+  let sql = "SELECT * FROM enterprise"
+  db.query(sql, (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
 module.exports = publicRouter
