@@ -6,12 +6,13 @@
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传</el-button>
         <el-button style="margin-left: 10px;" size="small" @click="cancel">取消</el-button>
-        <div class="el-upload__tip" slot="tip">只能上传一个doc/docx/pdf文件</div>
+        <div class="el-upload__tip" slot="tip">只能上传doc/docx/pdf文件</div>
       </el-upload>
     </div>
     <div class="box" v-else>
       <h1>我的简历</h1>
-      <a :href="'http://localhost:3000/public/download/resume/'+resumePath">下载</a>
+      <p>{{resumeName}}</p>
+      <a :href="'http://localhost:3000/public/download/resume/'+resumeName">下载</a>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="toUpload">重新上传</el-button>
     </div>
   </div>
@@ -28,7 +29,7 @@ export default {
       uploadFrom: {
         account: localStorage.getItem('user_account')
       },
-      resumePath: ''
+      resumeName: ''
     }
   },
   mounted () {
@@ -44,8 +45,8 @@ export default {
         .then(response => {
           if (response.data.retCode === 1) {
             this.showUpload = !response.data.msg.hasResume
-            // 去掉前面的upload
-            this.resumePath = response.data.msg.resume
+            // 路径中的upload替换成download
+            this.resumeName = response.data.msg.resume.split('\\')[2]
           }
         })
         .catch(error => {
@@ -71,7 +72,7 @@ export default {
           type: 'success',
           message: response.msg
         })
-        this.showUpload = false
+        this.checkResume()
       } else {
         this.$message({
           type: 'error',

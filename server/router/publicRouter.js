@@ -11,12 +11,11 @@ const db = require('../db')
 const data = {}
 
 // 下载简历
-publicRouter.get('/download/resume/:path', (req, res) => {
-  let file = 'upload/resume/' + req.params.path
-  let form = fs.readFileSync('upload/resume/aa9d6f2c3881b5147e9e500bb354f04c', { encoding: 'utf8' })
+publicRouter.get('/download/resume/:name', (req, res) => {
+  let file = 'upload/resume/' + req.params.name
   res.set({
     "Content-type": "application/octet-stream",
-    "Content-Disposition": "attachment;filename=" + encodeURI('aa9d6f2c3881b5147e9e500bb354f04c')
+    "Content-Disposition": "attachment;filename=" + encodeURI(req.params.name)
   })
   fs.createReadStream(file).pipe(res)
 })

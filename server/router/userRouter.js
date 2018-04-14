@@ -5,12 +5,24 @@ const express = require('express')
 const http = require('http')
 const userRouter = express.Router()
 const multer = require('multer')
-const upload = multer({ dest: 'upload/resume/' })
 const fs = require('fs')
 
 const db = require('../db')
 
 const data = {}
+
+// multer配置
+const storage = multer.diskStorage({
+  //设置上传后文件路径
+  destination: function (req, file, cb) {
+    cb(null, 'upload/resume/')
+  },
+  //给上传文件重命名，获取添加后缀名
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+})
+const upload = multer({ storage: storage })
 
 // 登录
 userRouter.post('/login', (req, res) => {
@@ -85,7 +97,6 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
   // 简历在服务器的地址
   let resume = req.file.path
   let account = req.body.account
-  console.log("名称：%s", req.file.originalname)
   let sql = "UPDATE user SET user_resume = ? WHERE user_account = ?"
   db.query(sql, [resume, account], (err, rows) => {
     if (err) {
@@ -266,9 +277,10 @@ userRouter.post('/checkresume', (req, res) => {
       res.json(data)
       console.log('error:', err)
     } else {
+      console.log(rows)
       data.retCode = 1
       data.msg = {
-        hasResume: rows.length > 0 ? true : false,
+        hasResume: rows[0].user_resume !== null,
         resume: rows[0].user_resume
       }
       res.json(data)
