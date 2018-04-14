@@ -5,7 +5,6 @@ const express = require('express')
 const http = require('http')
 const userRouter = express.Router()
 const multer = require('multer')
-const fs = require('fs')
 
 const db = require('../db')
 
@@ -17,7 +16,7 @@ const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'upload/resume/')
   },
-  //给上传文件重命名，获取添加后缀名
+  //给上传文件重命名
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname)
   }
@@ -277,7 +276,6 @@ userRouter.post('/checkresume', (req, res) => {
       res.json(data)
       console.log('error:', err)
     } else {
-      console.log(rows)
       data.retCode = 1
       data.msg = {
         hasResume: rows[0].user_resume !== null,

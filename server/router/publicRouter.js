@@ -20,4 +20,14 @@ publicRouter.get('/download/resume/:name', (req, res) => {
   fs.createReadStream(file).pipe(res)
 })
 
+// 下载营业执照
+publicRouter.get('/download/license/:name', (req, res) => {
+  let file = 'upload/license/' + req.params.name
+  res.set({
+    "Content-type": "application/octet-stream",
+    "Content-Disposition": "attachment;filename=" + encodeURI(req.params.name)
+  })
+  fs.createReadStream(file).pipe(res)
+})
+
 module.exports = publicRouter

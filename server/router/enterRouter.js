@@ -4,10 +4,24 @@
 const express = require('express')
 const http = require('http')
 const enterRouter = express.Router()
+const multer = require('multer')
 
 const db = require('../db')
 
 const data = {}
+
+// multer配置
+const storage = multer.diskStorage({
+  //设置上传后文件路径
+  destination: function (req, file, cb) {
+    cb(null, 'upload/license/')
+  },
+  //给上传文件重命名
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+})
+const upload = multer({ storage: storage })
 
 // 登录
 enterRouter.post('/login', (req, res) => {
@@ -287,5 +301,53 @@ enterRouter.post('/updatejob', (req, res) => {
     }
   })
 })
+
+// 检查是否上传过营业执照
+enterRouter.post('/checklicense', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT en_license FROM enterprise WHERE en_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = {
+        hasLicense: rows[0].en_license !== null,
+        license: rows[0].en_license
+      }
+      res.json(data)
+    }
+  })
+})
+
+// 上传简营业执照
+enterRouter.post('/upload/license', upload.single('license'), (req, res) => {
+  // 简历在服务器的地址
+  let license = req.file.path
+  let account = req.body.account
+  let sql = "UPDATE enterprise SET en_license = ? WHERE en_account = ?"
+  db.query(sql, [license, account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      if (rows) {
+        data.retCode = 1
+        data.msg = '上传成功'
+        res.json(data)
+      } else {
+        data.retCode = -1
+        data.msg = '上传失败'
+        res.json(data)
+      }
+    }
+  })
+})
+
 
 module.exports = enterRouter
