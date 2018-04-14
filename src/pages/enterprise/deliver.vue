@@ -43,7 +43,7 @@
       </el-table-column>
       <el-table-column label="简历" fixed="right" prop="user_resume">
         <template slot-scope="scope">
-          <el-button size="mini" @click="download(scope.row.user_resume)">下载</el-button>
+          <a :href="resumeFormat(scope.row.user_resume)">下载</a>
         </template>
       </el-table-column>
       <el-table-column label="投递状态" fixed="right" prop="de_status" :formatter="statusFormat">
@@ -124,16 +124,10 @@ export default {
     statusFormat (cellValue) {
       return statusList[cellValue.de_status]
     },
-    // 下载简历
-    download (path) {
-      axios
-        .get(path)
-        .then(response => {
-
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    // 下载地址拼接
+    resumeFormat(cellValue){
+      let resumeName = cellValue.split('\\')[2]
+      return 'http://localhost:3000/public/download/resume/'+resumeName
     }
   }
 }

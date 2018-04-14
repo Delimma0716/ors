@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/pages/login'
 import Index from '@/pages/index'
+import Admin from '@/pages/admin'
 import EnterIndex from '@/pages/enterIndex'
 import Settings from '@/pages/settings'
 import Recruit from '@/pages/enterprise/recruit'
@@ -111,7 +112,8 @@ export default new Router({
     // 管理员端
     {
       path: '/admin',
-      name: '后台管理'
+      name: '后台管理',
+      component: Admin
     }
   ]
 })

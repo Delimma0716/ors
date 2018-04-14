@@ -78,6 +78,7 @@
         </el-form>
       </el-card>
     </transition>
+    <router-link to="/admin" class="admin">管理员入口>>></router-link>
   </div>
 </template>
 
@@ -287,6 +288,13 @@ export default {
       margin: 0;
       line-height: 24px;
     }
+  }
+  .admin{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    text-align:center;
+    pointer:cursor;
   }
 }
 </style>
