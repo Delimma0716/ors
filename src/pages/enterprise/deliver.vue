@@ -107,7 +107,7 @@ export default {
               type: 'success',
               message: response.data.msg
             })
-            this.tableData[index].de_status = status
+            this.getAllDelivers()
           } else {
             this.$message({
               type: 'error',

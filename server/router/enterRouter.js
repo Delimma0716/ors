@@ -349,5 +349,23 @@ enterRouter.post('/upload/license', upload.single('license'), (req, res) => {
   })
 })
 
+// 检查审核状态
+enterRouter.post('/checked', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT en_checked FROM enterprise WHERE en_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows[0].en_checked
+      res.json(data)
+    }
+  })
+})
+
 
 module.exports = enterRouter

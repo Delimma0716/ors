@@ -291,7 +291,7 @@ export default {
   }
   .admin{
     position:absolute;
-    bottom:0;
+    bottom:20px;
     width:100%;
     text-align:center;
     pointer:cursor;

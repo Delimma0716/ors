@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios'
+import enterUtils from '@/assets/js/enterUtils'
 
 export default{
   data () {
@@ -33,6 +34,8 @@ export default{
   },
   mounted () {
     this.checkLicense()
+    console.log(enterUtils)
+
   },
   methods:{
     // 检查是否上传过营业执照
