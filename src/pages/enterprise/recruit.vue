@@ -37,6 +37,7 @@
 
 <script>
 import axios from 'axios'
+import {enterCheck} from '@/assets/js/enterUtils'
 
   export default {
     data() {
@@ -72,7 +73,35 @@ import axios from 'axios'
         }
       }
     },
+    mounted() {
+      this.check()
+    },
     methods: {
+      // 检查审核状态
+      check(){
+        enterCheck(localStorage.getItem('en_account'))
+          .then( data => {
+            if(data.msg===0){
+              // 弹出确认框
+              this.$alert('您还未认证，请先通过企业认证', '提示', {
+                confirmButtonText: '确定',
+                type: 'warning'
+              }).then(() => {
+                this.$router.push({name:'企业认证'})
+              })
+            }else if(data.msg===2){
+              // 弹出确认框
+              this.$alert('您的认证未通过，请重新上传资料', '提示', {
+                confirmButtonText: '确定',
+                type: 'warning'
+              }).then(() => {
+                this.$router.push({name:'企业认证'})
+              })
+            }
+          }, function (error) {
+            console.log(error)
+          })
+      },
       // 提交表单
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -128,18 +157,6 @@ import axios from 'axios'
             })
           })
       }
-    },
-    mounted() {
-      // if(!localStorage.getItem('certificate')){
-      //   // 弹出确认框
-      //   this.$confirm('您还未认证，请先通过企业认证', '提示', {
-      //     confirmButtonText: '确定',
-      //     type: 'warning'
-      //   }).then(() => {
-      //     this.$router.push({name:'企业认证'})
-      //     localStorage.setItem('certificate','true')
-      //   })
-      // }
     }
   }
 </script>

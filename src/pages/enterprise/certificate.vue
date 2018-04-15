@@ -1,4 +1,8 @@
 <template>
+<div>
+  <p v-if="checkedData.msg===0">未认证，请尽快完善资料</p>
+  <p v-else-if="checkedData.msg===1">认证通过</p>
+  <p v-else>认证未通过，请重新上传资料</p>
   <div class="box" v-if="showUpload">
     <h1>上传营业执照</h1>
     <el-upload class="upload-demo" action="http://localhost:3000/enter/upload/license" ref="upload" name="license" :data="uploadFrom" :multiple="false" :auto-upload="false" :on-success="handleSuccess" :before-upload="checkFile">
@@ -15,11 +19,12 @@
       <el-button style="margin-left: 10px;" size="small" type="success" @click="toUpload">重新上传</el-button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import axios from 'axios'
-import enterUtils from '@/assets/js/enterUtils'
+import {enterCheck} from '@/assets/js/enterUtils'
 
 export default{
   data () {
@@ -29,15 +34,24 @@ export default{
         account: localStorage.getItem('en_account')
       },
       licenseName: '',
-      hasLicense:false
+      hasLicense:false,
+      checkedData:{}
     }
   },
   mounted () {
+    this.check()
     this.checkLicense()
-    console.log(enterUtils)
-
   },
   methods:{
+    // 检查审核状态
+    check(){
+      enterCheck(localStorage.getItem('en_account'))
+        .then( data => {
+          this.checkedData=data
+        }, function (error) {
+          console.log(error)
+        })
+    },
     // 检查是否上传过营业执照
     checkLicense () {
       axios

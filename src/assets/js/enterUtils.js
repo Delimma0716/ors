@@ -1,19 +1,19 @@
 const axios = require('axios')
 
-let enterUtils = {}
-
 // 查询企业审核状态
-enterUtils.check = function (account) {
-  axios
-    .post('/enter/checked', {
-      account: account,
-    })
-    .then(response => {
-      return response.data
-    })
-    .catch(error => {
-      console.log(error)
-    })
+let enterCheck = function (account) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post('/enter/checked', {
+        account: account,
+      })
+      .then(response => {
+        resolve(response.data)
+      })
+      .catch(error => {
+        reject(error)
+      })
+  })
 }
 
-module.exports = enterUtils
+export { enterCheck }
