@@ -3,10 +3,10 @@
     <div class="search">
       <el-row>
         <el-col :span="14" :offset="4">
-          <el-input placeholder="请输入内容" v-model="keyword"></el-input>
+          <el-input placeholder="搜索职位" v-model="keyword"></el-input>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="setName(keyword)">搜索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -215,7 +215,6 @@ export default {
   methods: {
     // 获取所有职位
     getAllJobs () {
-      console.log(this.salaryValue, this.addrValue, this.expValue, this.eduValue, this.timeValue)
       axios
         .post('/user/getalljobs', {
           nameValue: this.nameValue,
