@@ -15,43 +15,16 @@
         <el-col :span="2" :offset="4">
           <el-button type="text">热门职位</el-button>
         </el-col>
-        <el-col :span="2">
-          <el-button type="text">项目经理</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">Java工程师</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">PHP工程师</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">UI设计师</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">前端工程师</el-button>
+        <el-col :span="2" v-for="name in hotName">
+          <el-button type="text" @click="setName(name)">{{name}}</el-button>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="2" :offset="4">
           <el-button type="text">热门城市</el-button>
         </el-col>
-        <el-col :span="2">
-          <el-button type="text">北京</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">上海</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">深圳</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">广州</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">南京</el-button>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="text">苏州</el-button>
+        <el-col :span="2" v-for="city in hotCity">
+          <el-button type="text" @click="setAddr(city)">{{city}}</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -229,7 +202,10 @@ export default {
       expValue: '',
       eduValue: '',
       timeValue: '',
-      tableData: []
+      tableData: [],
+      // 热门
+      hotCity: ['北京', '上海', '深圳', '广州', '南京', '苏州'],
+      hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '前端工程师']
     }
   },
   mounted () {
@@ -277,6 +253,16 @@ export default {
         }
         this.addrOptions.push(item)
       }
+    },
+    // 点击热门职位后设置名称
+    setName (name) {
+      this.nameValue = name
+      this.getAllJobs()
+    },
+    // 点击热门城市后设置地点
+    setAddr (city) {
+      this.addrValue = city
+      this.getAllJobs()
     }
   }
 }
