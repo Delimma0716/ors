@@ -100,41 +100,41 @@ export default {
       addrOptions: [],
       // 经验
       expOptions: [{
-        value: '1',
+        value: '无要求',
         label: '无要求'
       }, {
-        value: '2',
+        value: '1-3年',
         label: '1-3年'
       }, {
-        value: '3',
+        value: '3-5年',
         label: '3-5年'
       }, {
-        value: '4',
+        value: '5-10年',
         label: '5-10年'
       }],
       // 学历
       eduOptions: [{
-        value: '1',
+        value: '无要求',
         label: '无要求'
       }, {
-        value: '2',
+        value: '专科',
         label: '专科'
       }, {
-        value: '3',
+        value: '本科',
         label: '本科'
       }, {
-        value: '4',
+        value: '硕士',
         label: '硕士'
       }],
       // 时间
       timeOptions: [{
-        value: '1',
+        value: '全职',
         label: '全职'
       }, {
-        value: '2',
+        value: '兼职',
         label: '兼职'
       }, {
-        value: '3',
+        value: '实习',
         label: '实习'
       }],
       rules: {
@@ -143,7 +143,7 @@ export default {
         ],
         salary: [
           { required: true, message: '必填', trigger: 'blur' },
-          { type: 'number', message: '必须为数字'}
+          { type: 'number', message: '必须为数字' }
         ],
         addr: [
           { required: true, message: '必填', trigger: 'blur' },
@@ -234,6 +234,7 @@ export default {
     // 清空表单
     clearForm (formName) {
       this.$refs[formName].resetFields()
+      this.jobForm.addr = ''
     },
     // 发布职位
     recruit () {

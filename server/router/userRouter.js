@@ -117,9 +117,49 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
   })
 })
 
-// 获取所有职位简略信息
+// 获取所有职位信息
 userRouter.post('/getalljobs', (req, res) => {
-  let sql = "SELECT job.job_id,job.job_name,enterprise.en_name,job.job_salary,job.job_addr FROM job,enterprise WHERE job.en_account = enterprise.en_account"
+  let nameValue = req.body.nameValue
+  let salaryValue = req.body.salaryValue
+  let addrValue = req.body.addrValue
+  let expValue = req.body.expValue
+  let eduValue = req.body.eduValue
+  let timeValue = req.body.timeValue
+  let sql = "SELECT * FROM job,enterprise"
+  // 拼接条件
+  let sqlWhere = ' WHERE job.en_account = enterprise.en_account'
+  if (nameValue !== '') {
+    sqlWhere += " AND job.job_name LIKE '%" + nameValue + "%'"
+  }
+  if (salaryValue !== '') {
+    switch (salaryValue) {
+      case '1-5k':
+        sqlWhere += ' AND job.job_salary <= 5'
+        break;
+      case '5-10k':
+        sqlWhere += ' AND job.job_salary BETWEEN 5 AND 10'
+        break;
+      case '10-20k':
+        sqlWhere += ' AND job.job_salary BETWEEN 10 AND 20'
+        break;
+      case '20k以上':
+        sqlWhere += ' AND job.job_salary >= 20'
+        break;
+    }
+  }
+  if (addrValue !== '') {
+    sqlWhere += " AND job.job_addr LIKE '%" + addrValue + "%'"
+  }
+  if (expValue !== '') {
+    sqlWhere += " AND job.job_exp = '" + expValue + "'"
+  }
+  if (eduValue !== '') {
+    sqlWhere += " AND job.job_edu = '" + eduValue + "'"
+  }
+  if (timeValue !== '') {
+    sqlWhere += " AND job.job_time = '" + timeValue + "'"
+  }
+  sql += sqlWhere
   db.query(sql, (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -134,7 +174,7 @@ userRouter.post('/getalljobs', (req, res) => {
   })
 })
 
-// 获取职位详细信息
+// 获取某个职位信息
 userRouter.post('/getjobdetail', (req, res) => {
   let id = req.body.id
   let sql = "SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id = ?"
