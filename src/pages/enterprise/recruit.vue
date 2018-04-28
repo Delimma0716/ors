@@ -67,6 +67,7 @@ export default {
       },
       // 地点
       addrOptions: [],
+      // 专业
       majorOptions: [],
       // 经验
       expOptions: [{
@@ -109,26 +110,26 @@ export default {
       }],
       rules: {
         name: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ],
         major: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ],
         salary: [
           { required: true, message: '必填', trigger: 'blur' },
           { type: 'number', message: '必须为数字' }
         ],
         addr: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ],
         exp: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ],
         edu: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ],
         time: [
-          { required: true, message: '必填', trigger: 'blur' },
+          { required: true, message: '必填', trigger: 'blur' }
         ]
       }
     }

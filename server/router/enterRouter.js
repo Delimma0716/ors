@@ -149,6 +149,7 @@ enterRouter.post('/postjob', (req, res) => {
   let params = [
     req.body.account,
     req.body.name,
+    req.body.major,
     req.body.addr,
     req.body.salary,
     req.body.exp,
@@ -156,7 +157,7 @@ enterRouter.post('/postjob', (req, res) => {
     req.body.time,
     req.body.info
   ]
-  let sql = "INSERT INTO job(en_account,job_name,job_addr,job_salary,job_exp,job_edu,job_time,job_info)VALUES(?,?,?,?,?,?,?,?)"
+  let sql = "INSERT INTO job(en_account,job_name,job_major,job_addr,job_salary,job_exp,job_edu,job_time,job_info)VALUES(?,?,?,?,?,?,?,?,?)"
   db.query(sql, params, (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -274,14 +275,15 @@ enterRouter.post('/deletejob', (req, res) => {
 enterRouter.post('/updatejob', (req, res) => {
   let id = req.body.id
   let name = req.body.name
+  let major = req.body.major
   let salary = req.body.salary
   let addr = req.body.addr
   let exp = req.body.exp
   let edu = req.body.edu
   let time = req.body.time
   let info = req.body.info
-  let sql = "UPDATE job SET job_name = ? , job_addr = ? , job_salary = ? , job_exp = ? , job_edu = ? , job_time = ? , job_info = ? WHERE job_id = ?"
-  db.query(sql, [name, addr, salary, exp, edu, time, info, id], (err, rows) => {
+  let sql = "UPDATE job SET job_name = ? , job_major = ? ,job_addr = ? , job_salary = ? , job_exp = ? , job_edu = ? , job_time = ? , job_info = ? WHERE job_id = ?"
+  db.query(sql, [name, major, addr, salary, exp, edu, time, info, id], (err, rows) => {
     if (err) {
       data.retCode = 0
       data.msg = '系统内部错误'
