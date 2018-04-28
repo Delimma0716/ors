@@ -144,7 +144,7 @@ export default {
         .then(data => {
           if (data.msg === 0) {
             // 弹出确认框
-            this.$alert('您还未认证，请先通过企业认证', '提示', {
+            this.$alert('您还未通过企业认证', '提示', {
               confirmButtonText: '确定',
               type: 'warning'
             }).then(() => {

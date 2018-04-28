@@ -1,6 +1,6 @@
 <template>
 <div>
-  <p v-if="checkedData.msg===0">未认证，请尽快完善资料</p>
+  <p v-if="checkedData.msg===0">未通过认证，请尽快完善资料或等待管理员审核</p>
   <p v-else-if="checkedData.msg===1">认证通过</p>
   <p v-else>认证未通过，请重新上传资料</p>
   <div class="box" v-if="showUpload">

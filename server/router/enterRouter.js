@@ -339,9 +339,20 @@ enterRouter.post('/upload/license', upload.single('license'), (req, res) => {
       console.log('error:', err)
     } else {
       if (rows) {
-        data.retCode = 1
-        data.msg = '上传成功'
-        res.json(data)
+        // 更新审核状态为未审核
+        let sql2 = "UPDATE enterprise SET en_checked = 0 WHERE en_account = ?"
+        db.query(sql2, [account], (err, rows) => {
+          if (err) {
+            data.retCode = 0
+            data.msg = '系统内部错误'
+            res.json(data)
+            console.log('error:', err)
+          } else {
+            data.retCode = 1
+            data.msg = '上传成功'
+            res.json(data)
+          }
+        })
       } else {
         data.retCode = -1
         data.msg = '上传失败'
