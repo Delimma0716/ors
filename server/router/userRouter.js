@@ -120,6 +120,7 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
 // 获取所有职位信息
 userRouter.post('/getalljobs', (req, res) => {
   let nameValue = req.body.nameValue
+  let majorValue = req.body.majorValue
   let salaryValue = req.body.salaryValue
   let addrValue = req.body.addrValue
   let expValue = req.body.expValue
@@ -130,6 +131,9 @@ userRouter.post('/getalljobs', (req, res) => {
   let sqlWhere = ' WHERE job.en_account = enterprise.en_account'
   if (nameValue !== '') {
     sqlWhere += " AND job.job_name LIKE '%" + nameValue + "%'"
+  }
+  if (majorValue !== '') {
+    sqlWhere += " AND job.job_major LIKE '%" + majorValue + "%'"
   }
   if (salaryValue !== '') {
     switch (salaryValue) {
