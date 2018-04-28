@@ -9,6 +9,7 @@
       <el-row>
         <el-col :span="14" :offset="4">
           <h2>{{details.en_name}}</h2>
+          <p>{{details.job_major}}</p>
         </el-col>
         <el-col :span="6">
           <el-button type="primary">收藏</el-button>
@@ -18,7 +19,7 @@
       </el-row>
       <el-row>
         <el-col :span="20" :offset="4">
-          <p>{{details.job_salary}} / {{details.job_addr}} / {{details.job_exp}} / {{details.job_edu}} / {{details.job_time}} </p>
+          <p>{{details.job_salary}}k / {{details.job_addr}} / {{details.job_exp}} / {{details.job_edu}} / {{details.job_time}} </p>
         </el-col>
       </el-row>
       <el-row>
@@ -160,7 +161,7 @@ export default {
   }
   .detail {
     position: relative;
-    top: 300px;
+    top: 320px;
     left: 0;
     padding: 20px 0;
   }
