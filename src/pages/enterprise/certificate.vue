@@ -1,32 +1,32 @@
 <template>
-<div>
-  <p v-if="checkedData.msg===0">未通过认证，请尽快完善资料或等待管理员审核</p>
-  <p v-else-if="checkedData.msg===1">认证通过</p>
-  <p v-else>认证未通过，请重新上传资料</p>
-  <div class="box" v-if="showUpload">
-    <h1>上传营业执照</h1>
-    <el-upload class="upload-demo" action="http://localhost:3000/enter/upload/license" ref="upload" name="license" :data="uploadFrom" :multiple="false" :auto-upload="false" :on-success="handleSuccess" :before-upload="checkFile">
+  <div>
+    <p v-if="checkedData.msg===0">未通过认证，请尽快完善资料或等待管理员审核</p>
+    <p v-else-if="checkedData.msg===1">认证通过</p>
+    <p v-else>认证未通过，请重新上传资料</p>
+    <div class="box" v-if="showUpload">
+      <h1>上传营业执照</h1>
+      <el-upload class="upload-demo" action="http://localhost:3000/enter/upload/license" ref="upload" name="license" :data="uploadFrom" :multiple="false" :auto-upload="false" :on-success="handleSuccess" :before-upload="checkFile">
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传</el-button>
         <el-button style="margin-left: 10px;" size="small" @click="cancel" v-show="hasLicense">取消</el-button>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/jpeg/pdf文件</div>
+        <div class="el-upload__tip" slot="tip">只能上传jpg/png/pdf文件，不超过5M</div>
       </el-upload>
-  </div>
-  <div class="box" v-else>
+    </div>
+    <div class="box" v-else>
       <h1>查看营业执照</h1>
       <p>{{licenseName}}</p>
       <a :href="'http://localhost:3000/public/download/license/'+licenseName">下载</a>
       <el-button style="margin-left: 10px;" size="small" type="success" @click="toUpload">重新上传</el-button>
     </div>
   </div>
-</div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
-import {enterCheck} from '@/assets/js/enterUtils'
+import { enterCheck } from '@/assets/js/enterUtils'
 
-export default{
+export default {
   data () {
     return {
       showUpload: false,
@@ -34,20 +34,20 @@ export default{
         account: localStorage.getItem('en_account')
       },
       licenseName: '',
-      hasLicense:false,
-      checkedData:{}
+      hasLicense: false,
+      checkedData: {}
     }
   },
   mounted () {
     this.check()
     this.checkLicense()
   },
-  methods:{
+  methods: {
     // 检查审核状态
-    check(){
+    check () {
       enterCheck(localStorage.getItem('en_account'))
-        .then( data => {
-          this.checkedData=data
+        .then(data => {
+          this.checkedData = data
         }, function (error) {
           console.log(error)
         })
@@ -69,6 +69,24 @@ export default{
         .catch(error => {
           console.log(error)
         })
+    },
+    // 上传前检查格式、大小
+    checkFile (file) {
+      if (file.type !== 'image/jpeg' & file.type !== 'image/png' & file.type !== 'application/pdf') {
+        this.$message({
+          type: 'error',
+          message: '文件格式不正确'
+        })
+        return false
+      } else if (file.size > 5 * 1000 * 1000) {
+        this.$message({
+          type: 'error',
+          message: '文件过大'
+        })
+        return false
+      } else {
+        return true
+      }
     },
     // 重新上传
     toUpload () {
@@ -102,11 +120,11 @@ export default{
 </script>
 
 <style lang="less" scoped>
-  .box{
-    text-align: center;
-    h1{
-      font-size:1.8rem;
-      color:#303133;
-    }
+.box {
+  text-align: center;
+  h1 {
+    font-size: 1.8rem;
+    color: #303133;
   }
+}
 </style>

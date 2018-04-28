@@ -6,7 +6,7 @@
         <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
         <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传</el-button>
         <el-button style="margin-left: 10px;" size="small" @click="cancel" v-show="hasResume">取消</el-button>
-        <div class="el-upload__tip" slot="tip">只能上传doc/docx/pdf文件</div>
+        <div class="el-upload__tip" slot="tip">只能上传doc/pdf文件，不超过5M</div>
       </el-upload>
     </div>
     <div class="box" v-else>
@@ -29,7 +29,7 @@ export default {
         account: localStorage.getItem('user_account')
       },
       resumeName: '',
-      hasResume:false
+      hasResume: false
     }
   },
   mounted () {
@@ -53,6 +53,24 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    // 上传前检查格式、大小
+    checkFile (file) {
+      if (file.type !== 'application/msword' & file.type !== 'application/pdf') {
+        this.$message({
+          type: 'error',
+          message: '文件格式不正确'
+        })
+        return false
+      } else if (file.size > 5 * 1000 * 1000) {
+        this.$message({
+          type: 'error',
+          message: '文件过大'
+        })
+        return false
+      } else {
+        return true
+      }
     },
     // 重新上传
     toUpload () {
