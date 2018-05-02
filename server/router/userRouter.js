@@ -369,4 +369,22 @@ userRouter.post('/checkcollect', (req, res) => {
   })
 })
 
+// 获取所有收藏
+userRouter.post('/getcollect', (req, res) => {
+  let account = req.body.account
+  let sql = "SELECT * FROM (collection INNER JOIN job ON collection.job_id = job.job_id)INNER JOIN enterprise ON job.en_account = enterprise.en_account WHERE user_account = ?"
+  db.query(sql, [account], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter
