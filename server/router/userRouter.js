@@ -330,4 +330,43 @@ userRouter.post('/checkresume', (req, res) => {
   })
 })
 
+// 收藏职位
+userRouter.post('/collect', (req, res) => {
+  let account = req.body.account
+  let id = req.body.id
+  let sql = "insert into collection(user_account,job_id) values (?,?)"
+  db.query(sql, [account, id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      let data = {}
+      data.retCode = 1
+      data.msg = '收藏成功'
+      res.json(data)
+    }
+  })
+})
+
+// 检查是否收藏过
+userRouter.post('/checkcollect', (req, res) => {
+  let account = req.body.account
+  let id = req.body.id
+  let sql = "SELECT co_id FROM collection WHERE user_account = ? AND job_id = ?"
+  db.query(sql, [account, id], (err, rows) => {
+    if (err) {
+      data.retCode = 0
+      data.msg = '系统内部错误'
+      res.json(data)
+      console.log('error:', err)
+    } else {
+      data.retCode = 1
+      data.msg = rows.length
+      res.json(data)
+    }
+  })
+})
+
 module.exports = userRouter

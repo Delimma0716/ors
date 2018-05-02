@@ -12,7 +12,8 @@
           <p>{{details.job_major}}</p>
         </el-col>
         <el-col :span="6">
-          <el-button type="primary">收藏</el-button>
+          <el-button type="warning" icon="el-icon-star-off" disabled v-if="collected">已收藏</el-button>
+          <el-button type="primary" @click="collect" v-else>收藏</el-button>
           <el-button type="warning" icon="el-icon-check" disabled v-if="sended">已投递</el-button>
           <el-button type="primary" @click="send" v-else>投递</el-button>
         </el-col>
@@ -53,6 +54,7 @@ export default {
   data () {
     return {
       sended: false,
+      collected: false,
       job_id: this.$route.params.job_id,
       details: {},
       activeName: 'second'
@@ -60,6 +62,7 @@ export default {
   },
   mounted () {
     this.checkSend()
+    this.checkCollected()
     this.getJobDetail()
   },
   methods: {
@@ -126,6 +129,45 @@ export default {
               message: response.data.msg
             })
             this.sended = true
+          } else {
+            this.$message({
+              type: 'error',
+              message: response.data.msg
+            })
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 检查是否收藏过
+    checkCollected () {
+      axios
+        .post('/user/checkcollect', {
+          account: localStorage.getItem('user_account'),
+          id: this.job_id
+        })
+        .then(response => {
+          this.collected = response.data.msg === 1 ? true : false
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    // 收藏
+    collect () {
+      axios
+        .post('/user/collect', {
+          account: localStorage.getItem('user_account'),
+          id: this.job_id
+        })
+        .then(response => {
+          if (response.data.retCode === 1) {
+            this.$message({
+              type: 'success',
+              message: response.data.msg
+            })
+            this.collected = true
           } else {
             this.$message({
               type: 'error',
