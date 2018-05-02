@@ -98,7 +98,9 @@
         </el-col>
       </el-row>
     </div>
+    <button @click="rec">推荐</button>
   </div>
+
 </template>
 
 <script>
@@ -272,6 +274,23 @@ export default {
     setAddr (city) {
       this.addrValue = city
       this.getAllJobs()
+    },
+    rec () {
+      let job = {
+        job_id: 232,
+        job_name: '６７５６７６５７',
+        job_addr: '上海-长宁区',
+        job_salary: '9',
+        job_exp: '5-10年',
+        job_edu: '专科',
+        job_time: '兼职',
+        job_info: 'fgdfgfdg',
+        en_account: '小灰灰',
+        job_major: '经营管理类-人力资源总监'
+      }
+      axios.post('/public/rec', {
+        job: job
+      }).then().catch()
     }
   }
 }

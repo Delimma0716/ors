@@ -53,3 +53,10 @@ CREATE TABLE `collection` (
   `job_id` int(11) NOT NULL,
   PRIMARY KEY (`co_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `recommend` (
+  `re_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id1` int(11) NOT NULL,
+  `id2` int(11) NOT NULL,
+  PRIMARY KEY (`re_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

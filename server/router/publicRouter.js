@@ -7,6 +7,8 @@ const fs = require('fs')
 const publicRouter = express.Router()
 
 const db = require('../db')
+const recommend = require('../recommend/recommend')
+
 
 const data = {}
 
@@ -76,6 +78,11 @@ publicRouter.post('/updatechecked', (req, res) => {
       }
     }
   })
+})
+
+publicRouter.post('/rec', (req, res) => {
+  let job = req.body.job
+  recommend.queryAll(job)
 })
 
 module.exports = publicRouter
