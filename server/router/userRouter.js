@@ -12,13 +12,13 @@ const data = {}
 
 // multer配置
 const storage = multer.diskStorage({
-  //设置上传后文件路径
+  // 设置上传后文件路径
   destination: function (req, file, cb) {
     cb(null, 'upload/resume/')
   },
-  //给上传文件重命名
+  // 给上传文件重命名
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname)
+    cb(null, Date.now() + '-' + file.originalname)
   }
 })
 const upload = multer({ storage: storage })
@@ -28,7 +28,7 @@ userRouter.post('/login', (req, res) => {
   let account = req.body.account
   let password = req.body.password
   // 查询用户表
-  let sql = "select user_password from user where user_account = ?"
+  let sql = 'select user_password from user where user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -59,7 +59,7 @@ userRouter.post('/login', (req, res) => {
 userRouter.post('/register', (req, res) => {
   let account = req.body.account
   let password = req.body.password
-  let sql = "select user_password from user where user_account = ?"
+  let sql = 'select user_password from user where user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -72,7 +72,7 @@ userRouter.post('/register', (req, res) => {
         data.msg = '用户名已存在'
         res.json(data)
       } else {
-        let sql2 = "insert into user(user_account,user_password) values (?,?)"
+        let sql2 = 'insert into user(user_account,user_password) values (?,?)'
         db.query(sql2, [account, password], (err, rows) => {
           if (err) {
             data.retCode = 0
@@ -96,7 +96,7 @@ userRouter.post('/upload/resume', upload.single('resume'), (req, res) => {
   // 简历在服务器的地址
   let resume = req.file.path
   let account = req.body.account
-  let sql = "UPDATE user SET user_resume = ? WHERE user_account = ?"
+  let sql = 'UPDATE user SET user_resume = ? WHERE user_account = ?'
   db.query(sql, [resume, account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -126,7 +126,7 @@ userRouter.post('/getalljobs', (req, res) => {
   let expValue = req.body.expValue
   let eduValue = req.body.eduValue
   let timeValue = req.body.timeValue
-  let sql = "SELECT * FROM job,enterprise"
+  let sql = 'SELECT * FROM job,enterprise'
   // 拼接条件
   let sqlWhere = ' WHERE job.en_account = enterprise.en_account'
   if (nameValue !== '') {
@@ -139,16 +139,16 @@ userRouter.post('/getalljobs', (req, res) => {
     switch (salaryValue) {
       case '1-5k':
         sqlWhere += ' AND job.job_salary <= 5'
-        break;
+        break
       case '5-10k':
         sqlWhere += ' AND job.job_salary BETWEEN 5 AND 10'
-        break;
+        break
       case '10-20k':
         sqlWhere += ' AND job.job_salary BETWEEN 10 AND 20'
-        break;
+        break
       case '20k以上':
         sqlWhere += ' AND job.job_salary >= 20'
-        break;
+        break
     }
   }
   if (addrValue !== '') {
@@ -181,7 +181,7 @@ userRouter.post('/getalljobs', (req, res) => {
 // 获取某个职位信息
 userRouter.post('/getjobdetail', (req, res) => {
   let id = req.body.id
-  let sql = "SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id = ?"
+  let sql = 'SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id = ?'
   db.query(sql, [id], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -204,7 +204,7 @@ userRouter.post('/updateinfo', (req, res) => {
   let sex = req.body.sex
   let birth = req.body.birth
   let tel = req.body.tel
-  let sql = "UPDATE user SET user_name = ?, user_idCard = ?, user_sex = ?, user_birth = ?, user_tel = ? WHERE user_account = ?"
+  let sql = 'UPDATE user SET user_name = ?, user_idCard = ?, user_sex = ?, user_birth = ?, user_tel = ? WHERE user_account = ?'
   db.query(sql, [name, idCard, sex, birth, tel, account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -229,7 +229,7 @@ userRouter.post('/updateinfo', (req, res) => {
 // 获取个人信息
 userRouter.post('/getinfo', (req, res) => {
   let account = req.body.account
-  let sql = "SELECT user_name, user_idCard, user_sex, user_birth, user_tel FROM user WHERE user_account = ?"
+  let sql = 'SELECT user_name, user_idCard, user_sex, user_birth, user_tel FROM user WHERE user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -254,7 +254,7 @@ userRouter.post('/getinfo', (req, res) => {
 userRouter.post('/checksend', (req, res) => {
   let account = req.body.account
   let id = req.body.id
-  let sql = "SELECT de_id FROM deliver WHERE user_account = ? AND job_id = ?"
+  let sql = 'SELECT de_id FROM deliver WHERE user_account = ? AND job_id = ?'
   db.query(sql, [account, id], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -263,7 +263,7 @@ userRouter.post('/checksend', (req, res) => {
       console.log('error:', err)
     } else {
       data.retCode = 1
-      data.msg = rows.length > 0 ? true : false
+      data.msg = rows.length > 0
       res.json(data)
     }
   })
@@ -275,7 +275,7 @@ userRouter.post('/sendresume', (req, res) => {
   let eaccount = req.body.eaccount
   let id = req.body.id
   let status = req.body.status
-  let sql = "insert into deliver(user_account,en_account,job_id,de_status) values (?,?,?,?)"
+  let sql = 'insert into deliver(user_account,en_account,job_id,de_status) values (?,?,?,?)'
   db.query(sql, [uaccount, eaccount, id, status], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -294,7 +294,7 @@ userRouter.post('/sendresume', (req, res) => {
 // 获取所有投递
 userRouter.post('/getalldelivers', (req, res) => {
   let account = req.body.account
-  let sql = "SELECT job.job_name,enterprise.en_name,deliver.de_status FROM (job INNER JOIN enterprise ON job.en_account = enterprise.en_account) INNER JOIN deliver ON job.job_id = deliver.job_id WHERE user_account = ?"
+  let sql = 'SELECT job.job_name,enterprise.en_name,deliver.de_status FROM (job INNER JOIN enterprise ON job.en_account = enterprise.en_account) INNER JOIN deliver ON job.job_id = deliver.job_id WHERE user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -312,7 +312,7 @@ userRouter.post('/getalldelivers', (req, res) => {
 // 检查是否上传过简历
 userRouter.post('/checkresume', (req, res) => {
   let account = req.body.account
-  let sql = "SELECT user_resume FROM user WHERE user_account = ?"
+  let sql = 'SELECT user_resume FROM user WHERE user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -334,7 +334,7 @@ userRouter.post('/checkresume', (req, res) => {
 userRouter.post('/collect', (req, res) => {
   let account = req.body.account
   let id = req.body.id
-  let sql = "insert into collection(user_account,job_id) values (?,?)"
+  let sql = 'insert into collection(user_account,job_id) values (?,?)'
   db.query(sql, [account, id], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -354,7 +354,7 @@ userRouter.post('/collect', (req, res) => {
 userRouter.post('/checkcollect', (req, res) => {
   let account = req.body.account
   let id = req.body.id
-  let sql = "SELECT co_id FROM collection WHERE user_account = ? AND job_id = ?"
+  let sql = 'SELECT co_id FROM collection WHERE user_account = ? AND job_id = ?'
   db.query(sql, [account, id], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -372,7 +372,7 @@ userRouter.post('/checkcollect', (req, res) => {
 // 获取所有收藏
 userRouter.post('/getcollect', (req, res) => {
   let account = req.body.account
-  let sql = "SELECT * FROM (collection INNER JOIN job ON collection.job_id = job.job_id)INNER JOIN enterprise ON job.en_account = enterprise.en_account WHERE user_account = ?"
+  let sql = 'SELECT * FROM (collection INNER JOIN job ON collection.job_id = job.job_id)INNER JOIN enterprise ON job.en_account = enterprise.en_account WHERE user_account = ?'
   db.query(sql, [account], (err, rows) => {
     if (err) {
       data.retCode = 0

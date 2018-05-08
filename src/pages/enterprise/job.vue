@@ -15,7 +15,7 @@
       </el-table-column>
     </el-table>
 
-    <el-form :model="jobForm" :rules="rules" ref="jobForm" label-width="100px" 　v-show="!showTable">
+    <el-form :model="jobForm" :rules="rules" ref="jobForm" label-width="100px" v-show="!showTable">
       <el-form-item label="职位名称" prop="name">
         <el-input v-model="jobForm.name" placeholder="项目经理"></el-input>
       </el-form-item>
@@ -81,7 +81,7 @@ export default {
         exp: '',
         edu: '',
         time: '',
-        info: '',
+        info: ''
       },
       // 地点
       addrOptions: [],
@@ -180,15 +180,15 @@ export default {
     goEdit (row) {
       this.initAddr()
       this.initMajor()
-      this.jobForm.name = row.job_name,
-        this.jobForm.salary = row.job_salary,
-        this.jobForm.major = [row.job_major.split('-')[0], row.job_major.split('-')[1]],
-        this.jobForm.addr = [row.job_addr.split('-')[0], row.job_addr.split('-')[1]],
-        this.jobForm.exp = row.job_exp,
-        this.jobForm.edu = row.job_edu,
-        this.jobForm.time = row.job_time,
-        this.jobForm.info = row.job_info,
-        this.showTable = false
+      this.jobForm.name = row.job_name
+      this.jobForm.salary = row.job_salary
+      this.jobForm.major = [row.job_major.split('-')[0], row.job_major.split('-')[1]]
+      this.jobForm.addr = [row.job_addr.split('-')[0], row.job_addr.split('-')[1]]
+      this.jobForm.exp = row.job_exp
+      this.jobForm.edu = row.job_edu
+      this.jobForm.time = row.job_time
+      this.jobForm.info = row.job_info
+      this.showTable = false
       this.editId = row.job_id
     },
     // 初始化地点列表
@@ -231,11 +231,11 @@ export default {
     },
     // 专业层级选择器设置值
     majorChange (value) {
-      this.jobForm.major = value[0] + '-' + value[1]
+      this.jobForm.major = value
     },
     // 地点层级选择器设置值
     addrChange (value) {
-      this.jobForm.addr = value[0] + '-' + value[1]
+      this.jobForm.addr = value
     },
     // 清空表单
     clearForm (formName) {
@@ -244,7 +244,6 @@ export default {
     },
     // 保存
     save (form) {
-      console.log(this.jobForm)
       // 弹出确认框
       this.$confirm('确定保存吗？', '提示', {
         confirmButtonText: '确定',

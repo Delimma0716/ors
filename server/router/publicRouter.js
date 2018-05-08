@@ -2,13 +2,11 @@
  * 公共路由
  */
 const express = require('express')
-const http = require('http')
 const fs = require('fs')
 const publicRouter = express.Router()
 
 const db = require('../db')
 const recommend = require('../recommend/recommend')
-
 
 const data = {}
 
@@ -16,8 +14,8 @@ const data = {}
 publicRouter.get('/download/resume/:name', (req, res) => {
   let file = 'upload/resume/' + req.params.name
   res.set({
-    "Content-type": "application/octet-stream",
-    "Content-Disposition": "attachment;filename=" + encodeURI(req.params.name)
+    'Content-type': 'application/octet-stream',
+    'Content-Disposition': 'attachment;filename=' + encodeURI(req.params.name)
   })
   fs.createReadStream(file).pipe(res)
 })
@@ -26,15 +24,15 @@ publicRouter.get('/download/resume/:name', (req, res) => {
 publicRouter.get('/download/license/:name', (req, res) => {
   let file = 'upload/license/' + req.params.name
   res.set({
-    "Content-type": "application/octet-stream",
-    "Content-Disposition": "attachment;filename=" + encodeURI(req.params.name)
+    'Content-type': 'application/octet-stream',
+    'Content-Disposition': 'attachment;filename=' + encodeURI(req.params.name)
   })
   fs.createReadStream(file).pipe(res)
 })
 
 // 获取所有企业信息
 publicRouter.post('/allenterinfo', (req, res) => {
-  let sql = "SELECT * FROM enterprise"
+  let sql = 'SELECT * FROM enterprise'
   db.query(sql, (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -58,7 +56,7 @@ publicRouter.post('/allenterinfo', (req, res) => {
 publicRouter.post('/updatechecked', (req, res) => {
   let account = req.body.account
   let checked = req.body.checked
-  let sql = "UPDATE enterprise SET en_checked = ? WHERE en_account = ?"
+  let sql = 'UPDATE enterprise SET en_checked = ? WHERE en_account = ?'
   db.query(sql, [checked, account], (err, rows) => {
     if (err) {
       data.retCode = 0
@@ -66,7 +64,6 @@ publicRouter.post('/updatechecked', (req, res) => {
       res.json(data)
       console.log('error:', err)
     } else {
-      console.log(rows)
       if (rows) {
         data.retCode = 1
         data.msg = '更改成功'
@@ -78,11 +75,6 @@ publicRouter.post('/updatechecked', (req, res) => {
       }
     }
   })
-})
-
-publicRouter.post('/rec', (req, res) => {
-  let job = req.body.job
-  recommend.queryAll(job)
 })
 
 module.exports = publicRouter
