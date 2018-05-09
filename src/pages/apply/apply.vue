@@ -98,7 +98,7 @@
         </el-col>
       </el-row>
     </div>
-    <button @click="rec">推荐</button>
+    <button @click="getRecJobs">推荐</button>
   </div>
 
 </template>
@@ -274,8 +274,15 @@ export default {
       this.addrValue = city
       this.getAllJobs()
     },
-    rec () {
-
+    // 获取推荐职位
+    getRecJobs () {
+      axios.post('/user/getinterest', {
+        account: localStorage.getItem('user_account')
+      }).then(response => {
+      console.log(response)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 }

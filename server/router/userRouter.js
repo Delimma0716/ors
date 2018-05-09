@@ -8,6 +8,7 @@ const multer = require('multer')
 
 const db = require('../db')
 const interest = require('../recommend/interest')
+const recommend = require('../recommend/recommend')
 
 const data = {}
 
@@ -405,7 +406,18 @@ userRouter.post('/getcollect', (req, res) => {
 // 修改兴趣度
 userRouter.post('/updateinterest', (req, res) => {
   let inter = req.body
-  res.send(interest.update(inter))
+  interest.update(inter)
+})
+
+// 获取感兴趣职位
+userRouter.post('/getinterest', (req, res) => {
+  let account = req.body.account
+  recommend.getRecommendJobs(account)
+    .then(resList => {
+      res.send(resList)
+    }).catch(error => {
+      res.send(error)
+    })
 })
 
 module.exports = userRouter

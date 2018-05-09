@@ -12,7 +12,6 @@ interest.update = function (interest) {
     db.query(sql, [interest.user_account, interest.job_id], (err, rows) => {
       if (err) {
         console.log('error:', err)
-        return 'database error'
       } else {
         // 若无记录，新增level=low,views=1
         if (rows.length === 0) {
@@ -20,7 +19,6 @@ interest.update = function (interest) {
           db.query(sql2, [interest.user_account, interest.job_id, 'low', 1], (err, rows) => {
             if (err) {
               console.log('error:', err)
-              return 'database error'
             }
           })
         } else {
@@ -30,7 +28,6 @@ interest.update = function (interest) {
             db.query(sql3, [interest.user_account, interest.job_id], (err, rows) => {
               if (err) {
                 console.log('error:', err)
-                return 'database error'
               }
             })
           } else {
@@ -38,7 +35,6 @@ interest.update = function (interest) {
             db.query(sql4, [interest.user_account, interest.job_id], (err, rows) => {
               if (err) {
                 console.log('error:', err)
-                return 'database error'
               }
             })
           }
@@ -51,7 +47,6 @@ interest.update = function (interest) {
     db.query(sql, [interest.user_account, interest.job_id], (err, rows) => {
       if (err) {
         console.log('error:', err)
-        return 'database error'
       } else {
         // views+1,检查level,level=low改level=high
         if (rows.in_level === 'low') {
@@ -59,7 +54,6 @@ interest.update = function (interest) {
           db.query(sql3, [interest.user_account, interest.job_id], (err, rows) => {
             if (err) {
               console.log('error:', err)
-              return 'database error'
             }
           })
         } else {
@@ -67,7 +61,6 @@ interest.update = function (interest) {
           db.query(sql4, [interest.user_account, interest.job_id], (err, rows) => {
             if (err) {
               console.log('error:', err)
-              return 'database error'
             }
           })
         }

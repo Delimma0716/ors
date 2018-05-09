@@ -99,7 +99,7 @@ export default {
         job_id: this.job_id,
         time: time
       }
-      axios.post('user/updateinterest', inter)
+      axios.post('/user/updateinterest', inter)
         .then(res => {
           console.log(res.data)
         }).catch(error => {
