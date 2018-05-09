@@ -7,6 +7,7 @@ const userRouter = express.Router()
 const multer = require('multer')
 
 const db = require('../db')
+const interest = require('../recommend/interest')
 
 const data = {}
 
@@ -288,6 +289,13 @@ userRouter.post('/sendresume', (req, res) => {
       data.msg = '投递成功'
       res.json(data)
     }
+    // 添加兴趣
+    let inter = {
+      user_account: req.body.uaccount,
+      job_id: req.body.id,
+      in_level: 'high'
+    }
+    interest.add(inter)
   })
 })
 
@@ -347,6 +355,13 @@ userRouter.post('/collect', (req, res) => {
       data.msg = '收藏成功'
       res.json(data)
     }
+    // 添加兴趣
+    let inter = {
+      user_account: req.body.account,
+      job_id: req.body.id,
+      in_level: 'high'
+    }
+    interest.add(inter)
   })
 })
 
@@ -385,6 +400,12 @@ userRouter.post('/getcollect', (req, res) => {
       res.json(data)
     }
   })
+})
+
+// 修改兴趣度
+userRouter.post('/updateinterest', (req, res) => {
+  let inter = req.body
+  res.send(interest.update(inter))
 })
 
 module.exports = userRouter

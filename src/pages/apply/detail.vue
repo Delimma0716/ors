@@ -57,7 +57,10 @@ export default {
       collected: false,
       job_id: this.$route.params.job_id,
       details: {},
-      activeName: 'second'
+      activeName: 'second',
+      // 计时
+      timer: '',
+      second: 0
     }
   },
   mounted () {
@@ -65,7 +68,44 @@ export default {
     this.checkCollected()
     this.getJobDetail()
   },
+  watch: {
+    second: function () {
+      // console.log(this.second)
+      if (this.second === 30) {
+        this.endTimer()
+        // 修改兴趣度
+        this.updateInterest(30)
+      } else if (this.second === 5) {
+        // 修改兴趣度
+        this.updateInterest(5)
+      }
+    }
+  },
   methods: {
+    // 页面计时
+    startTimer () {
+      this.timer = setInterval(() => {
+        this.second++
+      }, 1000)
+    },
+    // 停止计时
+    endTimer () {
+      clearInterval(this.timer)
+    },
+    // 更改兴趣度
+    updateInterest (time) {
+      let inter = {
+        user_account: localStorage.getItem('user_account'),
+        job_id: this.job_id,
+        time: time
+      }
+      axios.post('user/updateinterest', inter)
+        .then(res => {
+          console.log(res.data)
+        }).catch(error => {
+          console.log(error)
+        })
+    },
     // 获取职位详细信息
     getJobDetail () {
       axios
@@ -75,6 +115,8 @@ export default {
         .then(response => {
           if (response.data.retCode === 1) {
             this.details = response.data.msg
+            // 开始计时
+            this.startTimer()
           } else {
             this.$message({
               type: 'error',

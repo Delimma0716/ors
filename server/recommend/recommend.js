@@ -1,4 +1,4 @@
-// 职位推荐
+// 相似职位及推荐
 const db = require('../db')
 let recommend = {}
 

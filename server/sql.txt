@@ -9,7 +9,7 @@ CREATE TABLE `enterprise` (
   `en_license` longtext,
   `en_checked` int(11) DEFAULT NULL,
   PRIMARY KEY (`en_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `deliver` (
   `de_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -18,7 +18,7 @@ CREATE TABLE `deliver` (
   `en_account` varchar(45) NOT NULL,
   `de_status` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`de_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `job` (
   `job_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE `job` (
   `en_account` varchar(45) NOT NULL,
   `job_major` varchar(45) NOT NULL,
   PRIMARY KEY (`job_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -45,18 +45,27 @@ CREATE TABLE `user` (
   `user_birth` varchar(45) DEFAULT NULL,
   `user_tel` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `collection` (
   `co_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_account` varchar(45) NOT NULL,
   `job_id` int(11) NOT NULL,
   PRIMARY KEY (`co_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `recommend` (
   `re_id` int(11) NOT NULL AUTO_INCREMENT,
   `id1` int(11) NOT NULL,
   `id2` int(11) NOT NULL,
   PRIMARY KEY (`re_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `interest` (
+  `in_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_account` varchar(45) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `in_level` varchar(45) NOT NULL,
+  `in_views` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`in_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
