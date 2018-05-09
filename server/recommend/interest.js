@@ -31,7 +31,7 @@ interest.update = function (interest) {
               }
             })
           } else {
-            let sql4 = "UPDATE interest SET in_views = in_views + 1 WHERE user_account = ? AND job_id = ?"
+            let sql4 = 'UPDATE interest SET in_views = in_views + 1 WHERE user_account = ? AND job_id = ?'
             db.query(sql4, [interest.user_account, interest.job_id], (err, rows) => {
               if (err) {
                 console.log('error:', err)
@@ -57,7 +57,7 @@ interest.update = function (interest) {
             }
           })
         } else {
-          let sql4 = "UPDATE interest SET in_views = in_views + 1 WHERE user_account = ? AND job_id = ?"
+          let sql4 = 'UPDATE interest SET in_views = in_views + 1 WHERE user_account = ? AND job_id = ?'
           db.query(sql4, [interest.user_account, interest.job_id], (err, rows) => {
             if (err) {
               console.log('error:', err)
@@ -67,7 +67,6 @@ interest.update = function (interest) {
       }
     })
   }
-
 }
 
 /**
@@ -99,7 +98,6 @@ interest.add = function (interest) {
       }
     }
   })
-
 }
 
 /**

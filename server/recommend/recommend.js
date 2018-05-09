@@ -66,14 +66,14 @@ recommend.delete = function (id) {
 recommend.getRecommendJobs = function (account) {
   return new Promise((resolve, reject) => {
     let recList = []
-    // 根据views排序
+    // 根据views倒序排序
     let sql = 'SELECT * FROM interest WHERE user_account = ? ORDER BY in_views DESC'
     let highJobs = []
     let lowJobs = []
     db.query(sql, [account], (err, rows) => {
       if (err) {
         console.log('error:', err)
-        reject(error)
+        reject(err)
       } else {
         rows.forEach(row => {
           if (row.in_level === 'high') {
@@ -106,6 +106,7 @@ recommend.getRecommendJobs = function (account) {
                   })
                   let i = 0
                   while (resList.length < 10) {
+                    // 重复的去除
                     if (resList.indexOf(idList[i]) < 0) {
                       resList.push(idList[i])
                     }
@@ -133,7 +134,7 @@ recommend.findInterest = function (id) {
     db.query(sql, [id, id], (err, rows) => {
       if (err) {
         console.log('error:', err)
-        reject(error)
+        reject(err)
       } else {
         rows.forEach(row => {
           if (idList.indexOf(row.id1) < 0) {
@@ -152,15 +153,16 @@ recommend.findInterest = function (id) {
 // 职位详情
 recommend.getJobsDetail = function (list) {
   return new Promise((resolve, reject) => {
-    let jobsList = []
     let str = '(' + list.join(',') + ')'
+    let str2 = '(job_id,' + list.join(',') + ')'
     console.log(str)
-    //根据括号内的顺序
-    let sql = 'SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id IN (1,7,4,8,6,9,2,10,5,3)'
-    db.query(sql, [str], (err, rows) => {
+    // 根据括号内的顺序
+    let sql = 'SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id IN ' + str + ' ORDER BY FIELD ' + str2
+    console.log(sql)
+    db.query(sql, (err, rows) => {
       if (err) {
         console.log('error:', err)
-        reject(error)
+        reject(err)
       } else {
         resolve(rows)
       }
