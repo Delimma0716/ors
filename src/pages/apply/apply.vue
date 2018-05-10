@@ -93,7 +93,7 @@
     <div class="page">
       <el-row>
         <el-col :span="16" :offset="8">
-          <el-pagination :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+          <el-pagination :page-size="10" layout="total, prev, pager, next, jumper" :total="jobsData.length" @current-change="pageChange">
           </el-pagination>
         </el-col>
       </el-row>
@@ -177,7 +177,10 @@ export default {
       expValue: '',
       eduValue: '',
       timeValue: '',
+      jobsData: [],
       tableData: [],
+      // 分页
+      pageSize: 10,
       // 热门
       hotCity: ['北京', '上海', '深圳', '广州', '南京', '苏州'],
       hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '前端工程师']
@@ -209,7 +212,8 @@ export default {
         })
         .then(response => {
           if (response.data.retCode === 1) {
-            this.tableData = response.data.msg
+            this.jobsData = response.data.msg
+            this.tableData = this.jobsData.slice(0, this.pageSize)
           } else {
             this.$message({
               type: 'error',
@@ -273,16 +277,10 @@ export default {
       this.addrValue = city
       this.getAllJobs()
     },
-    // 获取推荐职位
-    // getRecJobs () {
-    //   axios.post('/user/getinterest', {
-    //     account: localStorage.getItem('user_account')
-    //   }).then(response => {
-    //   console.log(response)
-    //   }).catch(error => {
-    //     console.log(error)
-    //   })
-    // }
+    // 页数改变
+    pageChange (index) {
+      this.tableData = this.jobsData.slice((index - 1) * 10, index * 10)
+    }
   }
 }
 </script>
