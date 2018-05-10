@@ -66,7 +66,6 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: #879adc;
   }
   .el-dropdown-link{
     line-height:58px;

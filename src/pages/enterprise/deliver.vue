@@ -27,8 +27,6 @@
       </el-table-column>
       <el-table-column label="投递职位" width="180" prop="job_name">
       </el-table-column>
-      <el-table-column label="投递日期" width="180" prop="de_date">
-      </el-table-column>
       <el-table-column label="简历" fixed="right" prop="user_resume">
         <template slot-scope="scope">
           <a :href="resumeFormat(scope.row.user_resume)">下载</a>

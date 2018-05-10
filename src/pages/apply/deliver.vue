@@ -1,13 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%" :row-class-name="tableRowClassName">
-      <el-table-column type="index" label="编号" width="80">
+      <el-table-column type="index" label="编号" width="120">
       </el-table-column>
       <el-table-column prop="job_name" label="职位名称">
       </el-table-column>
       <el-table-column prop="en_name" label="公司名称">
-      </el-table-column>
-      <el-table-column prop="de_date" label="投递日期">
       </el-table-column>
       <el-table-column prop="de_status" :formatter="statusFormat" label="投递状态">
       </el-table-column>

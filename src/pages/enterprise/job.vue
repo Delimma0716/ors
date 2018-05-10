@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%;" v-show="showTable">
-      <el-table-column label="编号" width="80" type="index">
+      <el-table-column label="编号" width="120" type="index">
       </el-table-column>
       <el-table-column label="职位名称" prop="job_name">
       </el-table-column>
-      <el-table-column label="发布时间" prop="job_date">
+      <el-table-column label="行业类别" prop="job_major">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
