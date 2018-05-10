@@ -3,7 +3,7 @@
     <div class="search">
       <el-row>
         <el-col :span="14" :offset="4">
-          <el-input placeholder="搜索职位" v-model="keyword"></el-input>
+          <el-input placeholder="搜索职位" v-model="keyword" 　clearable></el-input>
         </el-col>
         <el-col :span="6">
           <el-button type="primary" icon="el-icon-search" @click="setName(keyword)">搜索</el-button>
@@ -15,6 +15,9 @@
         <el-col :span="2" :offset="4">
           <el-button type="text">热门职位</el-button>
         </el-col>
+        <el-col :span="2">
+          <el-button type="text" @click="setName('')">全部</el-button>
+        </el-col>
         <el-col :span="2" v-for="name in hotName">
           <el-button type="text" @click="setName(name)">{{name}}</el-button>
         </el-col>
@@ -22,6 +25,9 @@
       <el-row>
         <el-col :span="2" :offset="4">
           <el-button type="text">热门城市</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="text" @click="setAddr('')">全部</el-button>
         </el-col>
         <el-col :span="2" v-for="city in hotCity">
           <el-button type="text" @click="setAddr(city)">{{city}}</el-button>
@@ -183,7 +189,7 @@ export default {
       pageSize: 10,
       // 热门
       hotCity: ['北京', '上海', '深圳', '广州', '南京', '苏州'],
-      hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '前端工程师']
+      hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '会计']
     }
   },
   mounted () {
@@ -199,6 +205,8 @@ export default {
       }
       if (typeof this.addrValue === 'object') {
         this.addrValueJoin = this.addrValue.join('-')
+      } else {
+        this.addrValueJoin = this.addrValue
       }
       axios
         .post('/user/getalljobs', {
