@@ -76,7 +76,7 @@ export default {
       jobForm: {
         name: '',
         major: '',
-        salary: '',
+        salary: 0,
         addr: '',
         exp: '',
         edu: '',
@@ -181,7 +181,7 @@ export default {
       this.initAddr()
       this.initMajor()
       this.jobForm.name = row.job_name
-      this.jobForm.salary = row.job_salary
+      this.jobForm.salary = parseFloat(row.job_salary)
       this.jobForm.major = [row.job_major.split('-')[0], row.job_major.split('-')[1]]
       this.jobForm.addr = [row.job_addr.split('-')[0], row.job_addr.split('-')[1]]
       this.jobForm.exp = row.job_exp

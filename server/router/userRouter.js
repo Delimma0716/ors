@@ -407,6 +407,12 @@ userRouter.post('/getcollect', (req, res) => {
 userRouter.post('/updateinterest', (req, res) => {
   let inter = req.body
   interest.update(inter)
+    .then(() => {
+      res.send('success')
+    })
+    .catch(() => {
+      res.send('error')
+    })
 })
 
 // 获取感兴趣职位

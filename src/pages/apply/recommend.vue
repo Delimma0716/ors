@@ -3,7 +3,7 @@
     <div class="list">
       <el-row>
         <el-col :span="16" :offset="4">
-          <el-button icon="refresh" class="refresh" @click="getRecJobs">换一批</el-button>          
+          <el-button class="refresh" @click="getRecJobs" icon="el-icon-refresh">换一批</el-button>          
           <el-table :data="tableData" style="width: 100%" @row-click="detail">
             <el-table-column type="index" label="编号">
             </el-table-column>

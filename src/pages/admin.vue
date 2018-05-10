@@ -97,7 +97,7 @@ export default{
     },
     // 下载地址拼接
     licenseFormat(cellValue){
-      let licenseName = cellValue.split('\\')[2]
+      let licenseName = cellValue.split('/')[2]
       return 'http://localhost:3000/public/download/license/'+licenseName
     },
     // 查看详细信息
