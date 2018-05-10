@@ -98,7 +98,6 @@
         </el-col>
       </el-row>
     </div>
-    <button @click="getRecJobs">推荐</button>
   </div>
 
 </template>
@@ -275,15 +274,15 @@ export default {
       this.getAllJobs()
     },
     // 获取推荐职位
-    getRecJobs () {
-      axios.post('/user/getinterest', {
-        account: localStorage.getItem('user_account')
-      }).then(response => {
-      console.log(response)
-      }).catch(error => {
-        console.log(error)
-      })
-    }
+    // getRecJobs () {
+    //   axios.post('/user/getinterest', {
+    //     account: localStorage.getItem('user_account')
+    //   }).then(response => {
+    //   console.log(response)
+    //   }).catch(error => {
+    //     console.log(error)
+    //   })
+    // }
   }
 }
 </script>

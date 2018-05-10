@@ -7,6 +7,7 @@ import EnterIndex from '@/pages/enterIndex'
 import Settings from '@/pages/settings'
 import Recruit from '@/pages/enterprise/recruit'
 import Apply from '@/pages/apply/apply'
+import Recommend from '@/pages/apply/recommend'
 import Detail from '@/pages/apply/detail'
 import Resume from '@/pages/apply/resume'
 import Collection from '@/pages/apply/collection'
@@ -60,6 +61,11 @@ export default new Router({
           path: 'apply',
           name: '找工作',
           component: Apply,
+        },
+        {
+          path: 'recommend',
+          name: '猜你喜欢',
+          component: Recommend,
         },
         {
           path: 'detail/:job_id',
