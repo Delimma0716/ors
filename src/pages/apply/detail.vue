@@ -57,10 +57,12 @@ export default {
       collected: false,
       job_id: this.$route.params.job_id,
       details: {},
-      activeName: 'second',
+      activeName: 'first',
       // 计时
       timer: '',
-      second: 0
+      second: 0,
+      // 是否第二次计时
+      again: false
     }
   },
   mounted () {
@@ -70,14 +72,19 @@ export default {
   },
   watch: {
     second: function () {
-      // console.log(this.second)
-      if (this.second === 30) {
+      console.log(this.second)
+      if (this.second === 25 && this.again) {
         this.endTimer()
         // 修改兴趣度
         this.updateInterest(30)
-      } else if (this.second === 5) {
+      }
+      if (this.second === 5 && (!this.again)) {
         // 修改兴趣度
         this.updateInterest(5)
+        // 重新计时
+        this.endTimer()
+        this.startTimer()
+        this.again = true
       }
     }
   },

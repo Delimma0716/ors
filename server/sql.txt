@@ -7,7 +7,7 @@ CREATE TABLE `enterprise` (
   `en_addr` longtext,
   `en_tel` longtext,
   `en_license` longtext,
-  `en_checked` int(11) DEFAULT NULL,
+  `en_checked` int(11) DEFAULT 0,
   PRIMARY KEY (`en_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

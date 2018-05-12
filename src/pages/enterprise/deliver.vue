@@ -1,28 +1,16 @@
 <template>
   <div>
-    <el-dropdown>
+    <el-dropdown @command="selectDelivers">
       <el-button type="primary">
         投递状态
         <i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>所有</el-dropdown-item>
-        <el-dropdown-item>已查看</el-dropdown-item>
-        <el-dropdown-item>感兴趣</el-dropdown-item>
-        <el-dropdown-item>不合适</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-
-    <el-dropdown>
-      <el-button type="primary">
-        职位名称
-        <i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>所有</el-dropdown-item>
-        <el-dropdown-item>已查看</el-dropdown-item>
-        <el-dropdown-item>感兴趣</el-dropdown-item>
-        <el-dropdown-item>不合适</el-dropdown-item>
+        <el-dropdown-item command="">所有</el-dropdown-item>
+        <el-dropdown-item command="0">未查看</el-dropdown-item>
+        <el-dropdown-item command="1">已查看</el-dropdown-item>
+        <el-dropdown-item command="2">感兴趣</el-dropdown-item>
+        <el-dropdown-item command="3">不合适</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
 
@@ -38,8 +26,6 @@
       <el-table-column label="出生年月" width="180" prop="user_birth">
       </el-table-column>
       <el-table-column label="投递职位" width="180" prop="job_name">
-      </el-table-column>
-      <el-table-column label="投递日期" width="180" prop="de_date">
       </el-table-column>
       <el-table-column label="简历" fixed="right" prop="user_resume">
         <template slot-scope="scope">
@@ -67,6 +53,7 @@ const statusList = ['未查看', '已查看', '感兴趣', '不合适']
 export default {
   data () {
     return {
+      deliversData: [],
       tableData: []
     }
   },
@@ -82,7 +69,8 @@ export default {
         })
         .then(response => {
           if (response.data.retCode === 1) {
-            this.tableData = response.data.msg
+            this.deliversData = response.data.msg
+            this.tableData = this.deliversData
           } else {
             this.$message({
               type: 'error',
@@ -124,9 +112,22 @@ export default {
       return statusList[cellValue.de_status]
     },
     // 下载地址拼接
-    resumeFormat(cellValue){
-      let resumeName = cellValue.split('\\')[2]
-      return 'http://localhost:3000/public/download/resume/'+resumeName
+    resumeFormat (cellValue) {
+      let resumeName = cellValue.split('/')[2]
+      return 'http://localhost:3000/public/download/resume/' + resumeName
+    },
+    // 按投递状态筛选
+    selectDelivers (command) {
+      this.tableData = []
+      if (command === '') {
+        this.tableData = this.deliversData
+      } else {
+        this.deliversData.forEach(de => {
+          if (de.de_status === command) {
+            this.tableData.push(de)
+          }
+        })
+      }
     }
   }
 }

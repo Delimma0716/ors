@@ -96,28 +96,29 @@ recommend.getRecommendJobs = function (account) {
               idList = [...idList, ...list]
               // 最后一个时去重，若十个以内全部加入，十个以外任意取十个
               if (index === recList.length - 1) {
-                let resList = []
-                if (idList.length <= 10) {
-                  resList = idList
-                } else {
-                  // 打乱顺序
-                  idList.sort(() => {
-                    return 0.5 - Math.random()
-                  })
-                  let i = 0
-                  while (resList.length < 10) {
-                    // 重复的去除
-                    if (resList.indexOf(idList[i]) < 0) {
-                      resList.push(idList[i])
-                    }
-                    i++
+                let clearIdList = []
+                // 去重
+                idList.forEach(id => {
+                  if (clearIdList.indexOf(id) < 0) {
+                    clearIdList.push(id)
                   }
-                  // 获取详情并返回
-                  recommend.getJobsDetail(resList)
-                    .then(jobsList => {
-                      resolve(jobsList)
-                    })
+                })
+                // 打乱顺序
+                clearIdList.sort(() => {
+                  return 0.5 - Math.random()
+                })
+                let resList = []
+                if (clearIdList.length <= 10) {
+                  resList = clearIdList
+                } else {
+                  // 取前十个
+                  resList = clearIdList.slice(0, 10)
                 }
+                // 获取详情并返回
+                recommend.getJobsDetail(resList)
+                  .then(jobsList => {
+                    resolve(jobsList)
+                  })
               }
             })
         })
@@ -155,10 +156,8 @@ recommend.getJobsDetail = function (list) {
   return new Promise((resolve, reject) => {
     let str = '(' + list.join(',') + ')'
     let str2 = '(job_id,' + list.join(',') + ')'
-    console.log(str)
     // 根据括号内的顺序
     let sql = 'SELECT * FROM job,enterprise WHERE job.en_account = enterprise.en_account AND job.job_id IN ' + str + ' ORDER BY FIELD ' + str2
-    console.log(sql)
     db.query(sql, (err, rows) => {
       if (err) {
         console.log('error:', err)

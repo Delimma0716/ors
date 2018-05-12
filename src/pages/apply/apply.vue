@@ -3,7 +3,7 @@
     <div class="search">
       <el-row>
         <el-col :span="14" :offset="4">
-          <el-input placeholder="搜索职位" v-model="keyword"></el-input>
+          <el-input placeholder="搜索职位" v-model="keyword" 　clearable></el-input>
         </el-col>
         <el-col :span="6">
           <el-button type="primary" icon="el-icon-search" @click="setName(keyword)">搜索</el-button>
@@ -15,6 +15,9 @@
         <el-col :span="2" :offset="4">
           <el-button type="text">热门职位</el-button>
         </el-col>
+        <el-col :span="2">
+          <el-button type="text" @click="setName('')">全部</el-button>
+        </el-col>
         <el-col :span="2" v-for="name in hotName">
           <el-button type="text" @click="setName(name)">{{name}}</el-button>
         </el-col>
@@ -22,6 +25,9 @@
       <el-row>
         <el-col :span="2" :offset="4">
           <el-button type="text">热门城市</el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="text" @click="setAddr('')">全部</el-button>
         </el-col>
         <el-col :span="2" v-for="city in hotCity">
           <el-button type="text" @click="setAddr(city)">{{city}}</el-button>
@@ -74,7 +80,7 @@
       <el-row>
         <el-col :span="16" :offset="4">
           <el-table :data="tableData" style="width: 100%" @row-click="detail">
-            <el-table-column type="index" label="编号">
+            <el-table-column type="index" label="编号" width="120">
             </el-table-column>
             <el-table-column prop="job_name" label="职位名称">
             </el-table-column>
@@ -84,8 +90,6 @@
             </el-table-column>
             <el-table-column prop="job_addr" label="工作地点">
             </el-table-column>
-            <el-table-column prop="date" label="发布时间">
-            </el-table-column>
           </el-table>
         </el-col>
       </el-row>
@@ -93,12 +97,11 @@
     <div class="page">
       <el-row>
         <el-col :span="16" :offset="8">
-          <el-pagination :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+          <el-pagination :page-size="10" layout="total, prev, pager, next, jumper" :total="jobsData.length" @current-change="pageChange">
           </el-pagination>
         </el-col>
       </el-row>
     </div>
-    <button @click="getRecJobs">推荐</button>
   </div>
 
 </template>
@@ -178,10 +181,13 @@ export default {
       expValue: '',
       eduValue: '',
       timeValue: '',
+      jobsData: [],
       tableData: [],
+      // 分页
+      pageSize: 10,
       // 热门
       hotCity: ['北京', '上海', '深圳', '广州', '南京', '苏州'],
-      hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '前端工程师']
+      hotName: ['项目经理', 'Java工程师', 'PHP工程师', 'UI设计师', '会计']
     }
   },
   mounted () {
@@ -197,6 +203,8 @@ export default {
       }
       if (typeof this.addrValue === 'object') {
         this.addrValueJoin = this.addrValue.join('-')
+      } else {
+        this.addrValueJoin = this.addrValue
       }
       axios
         .post('/user/getalljobs', {
@@ -210,7 +218,8 @@ export default {
         })
         .then(response => {
           if (response.data.retCode === 1) {
-            this.tableData = response.data.msg
+            this.jobsData = response.data.msg
+            this.tableData = this.jobsData.slice(0, this.pageSize)
           } else {
             this.$message({
               type: 'error',
@@ -274,15 +283,9 @@ export default {
       this.addrValue = city
       this.getAllJobs()
     },
-    // 获取推荐职位
-    getRecJobs () {
-      axios.post('/user/getinterest', {
-        account: localStorage.getItem('user_account')
-      }).then(response => {
-      console.log(response)
-      }).catch(error => {
-        console.log(error)
-      })
+    // 页数改变
+    pageChange (index) {
+      this.tableData = this.jobsData.slice((index - 1) * 10, index * 10)
     }
   }
 }

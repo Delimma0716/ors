@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" style="width: 100%;" v-show="showTable">
-      <el-table-column label="编号" width="80" type="index">
+      <el-table-column label="编号" width="120" type="index">
       </el-table-column>
       <el-table-column label="职位名称" prop="job_name">
       </el-table-column>
-      <el-table-column label="发布时间" prop="job_date">
+      <el-table-column label="行业类别" prop="job_major">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -76,7 +76,7 @@ export default {
       jobForm: {
         name: '',
         major: '',
-        salary: '',
+        salary: 0,
         addr: '',
         exp: '',
         edu: '',
@@ -181,7 +181,7 @@ export default {
       this.initAddr()
       this.initMajor()
       this.jobForm.name = row.job_name
-      this.jobForm.salary = row.job_salary
+      this.jobForm.salary = parseFloat(row.job_salary)
       this.jobForm.major = [row.job_major.split('-')[0], row.job_major.split('-')[1]]
       this.jobForm.addr = [row.job_addr.split('-')[0], row.job_addr.split('-')[1]]
       this.jobForm.exp = row.job_exp

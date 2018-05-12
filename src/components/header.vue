@@ -3,6 +3,7 @@
     <el-menu default-active="/apply" class="el-menu-demo" mode="horizontal" :router="true">
       <div class="logo"></div>
       <el-menu-item index="/apply">找工作</el-menu-item>
+      <el-menu-item index="/recommend">猜你喜欢</el-menu-item>
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
           {{username}},你好<i class="el-icon-arrow-down el-icon--right"></i>
@@ -66,7 +67,6 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background: #879adc;
   }
   .el-dropdown-link{
     line-height:58px;
