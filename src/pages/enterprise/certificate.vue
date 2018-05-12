@@ -63,7 +63,7 @@ export default {
             this.hasLicense = response.data.msg.hasLicense
             this.showUpload = !response.data.msg.hasLicense
             // 路径中的upload替换成download
-            this.licenseName = response.data.msg.license.split('/')[2]
+            this.licenseName = response.data.msg.license.split('\\')[2]
           }
         })
         .catch(error => {

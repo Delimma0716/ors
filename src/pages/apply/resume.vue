@@ -47,7 +47,7 @@ export default {
             this.hasResume = response.data.msg.hasResume
             this.showUpload = !response.data.msg.hasResume
             // 文件名
-            this.resumeName = response.data.msg.resume.split('/')[2]
+            this.resumeName = response.data.msg.resume.split('\\')[2]
             // console.log(this.resumeName)
           }
         })

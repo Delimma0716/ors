@@ -92,26 +92,26 @@ export default{
         })
     },
     // 审核状态格式化
-    checkedFormat(value){
+    checkedFormat (value) {
       return checkedList[value.en_checked]
     },
     // 下载地址拼接
-    licenseFormat(cellValue){
-      let licenseName = cellValue.split('/')[2]
-      return 'http://localhost:3000/public/download/license/'+licenseName
+    licenseFormat (cellValue) {
+      let licenseName = cellValue.split('\\')[2]
+      return 'http://localhost:3000/public/download/license/' + licenseName
     },
     // 查看详细信息
-    showDetail(row){
-      this.cardData=row
-      this.showTable=false
+    showDetail (row) {
+      this.cardData = row
+      this.showTable = false
     },
     // 关闭详细信息
-    hideDetail(){
-      this.cardData=[]
-      this.showTable=true
+    hideDetail () {
+      this.cardData = []
+      this.showTable = true
     },
     // 审核
-    checkEnter(index, account, checked){
+    checkEnter (index, account, checked) {
       axios
         .post('/public/updatechecked', {
           account: account,

@@ -29,7 +29,8 @@
       </el-table-column>
       <el-table-column label="简历" fixed="right" prop="user_resume">
         <template slot-scope="scope">
-          <a :href="resumeFormat(scope.row.user_resume)">下载</a>
+          <a v-if="scope.row.user_resume" :href="resumeFormat(scope.row.user_resume)">下载</a>
+          <span v-else>无</span>
         </template>
       </el-table-column>
       <el-table-column label="投递状态" fixed="right" prop="de_status" :formatter="statusFormat">
@@ -113,7 +114,7 @@ export default {
     },
     // 下载地址拼接
     resumeFormat (cellValue) {
-      let resumeName = cellValue.split('/')[2]
+      let resumeName = cellValue.split('\\')[2]
       return 'http://localhost:3000/public/download/resume/' + resumeName
     },
     // 按投递状态筛选
